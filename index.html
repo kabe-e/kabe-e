@@ -111,7 +111,8 @@
         .hero-slide.active { opacity: 0.88; }
         .animate-marquee { animation: marquee 22s linear infinite; }
         .animate-marquee:hover { animation-play-state: paused; }
-        .offer-item { color: #ffffff; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.03em; padding-right: 0; }
+        .offer-item { color: #ffffff; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.03em; padding-right: 0; }
+        @media (min-width: 768px) { .offer-item { font-size: 13px; } }
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .hero-arrow { background: rgba(255,255,255,0.85); backdrop-filter: blur(4px); transition: all .2s ease; }
         .hero-arrow:hover { background: #ffffff; transform: scale(1.08); }
@@ -121,14 +122,18 @@
 <!-- Top Navigation Bar -->
 <header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-white/10 shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4">
 <div class="flex items-center gap-8">
+<button id="mobileMenuBtn" class="md:hidden p-1 -ml-1 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
 <a class="font-headline-lg text-headline-lg font-extrabold text-primary tracking-tight" href="index.html">KABE-E</a>
 <nav class="hidden md:flex gap-6 items-center">
 <a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-caps text-label-caps" href="shop.html?format=poster">Poster</a>
 <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-caps text-label-caps" href="shop.html?format=polaroid">Polaroid</a>
 <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-caps text-label-caps" href="shop.html?format=sticker">Sticker</a>
 <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-caps text-label-caps" href="shop.html?format=wallpaper">Wallpaper</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-caps text-label-caps" href="shop.html?category=Sketching%2FDrawing">Sketching</a>
 <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-caps text-label-caps flex items-center gap-1" href="custom-wallpaper.html">
-<span class="material-symbols-outlined text-[16px]">auto_awesome</span> Custom Wallpaper
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span> Custom Poster
 </a>
 </nav>
 </div>
@@ -146,6 +151,18 @@
 </div>
 </header>
 
+<!-- Mobile Nav Dropdown -->
+<div id="mobileNavPanel" class="hidden md:hidden bg-surface border-b border-outline-variant/30 px-margin-mobile py-4 flex flex-col gap-1 sticky top-[73px] z-40">
+<a class="py-2.5 font-bold text-primary font-label-caps text-label-caps" href="shop.html?format=poster">Poster</a>
+<a class="py-2.5 text-on-surface-variant font-label-caps text-label-caps" href="shop.html?format=polaroid">Polaroid</a>
+<a class="py-2.5 text-on-surface-variant font-label-caps text-label-caps" href="shop.html?format=sticker">Sticker</a>
+<a class="py-2.5 text-on-surface-variant font-label-caps text-label-caps" href="shop.html?format=wallpaper">Wallpaper</a>
+<a class="py-2.5 text-on-surface-variant font-label-caps text-label-caps" href="shop.html?category=Sketching%2FDrawing">Sketching</a>
+<a class="py-2.5 text-on-surface-variant font-label-caps text-label-caps flex items-center gap-1" href="custom-wallpaper.html">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span> Custom Poster
+</a>
+</div>
+
 <!-- Scrolling Offers Ribbon -->
 <div class="bg-primary overflow-hidden py-2.5 relative">
 <div class="flex whitespace-nowrap animate-marquee">
@@ -156,7 +173,7 @@
 
 <main>
 <!-- Hero Section -->
-<section class="relative h-[620px] flex items-center overflow-hidden bg-surface-container-low shoji-grid">
+<section class="relative h-[420px] sm:h-[480px] md:h-[560px] flex items-center overflow-hidden bg-surface-container-low shoji-grid">
 <div id="heroSlideTrack" class="absolute inset-0 z-0">
 <!-- Hero slides injected here by JS from Supabase banners -->
 <div class="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
@@ -336,19 +353,19 @@ hello@kabe-e.com
 </footer>
 <!-- Mobile Navigation Shell -->
 <nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-2 md:hidden bg-surface-glass backdrop-blur-xl border-t border-white/10 bg-surface/80 shadow-lg">
-<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 active:scale-95 transition-transform duration-200" href="#">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 active:scale-95 transition-transform duration-200" href="index.html">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome_motion</span>
 <span class="font-label-sm text-label-sm">Shop</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 transition-transform duration-200" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 transition-transform duration-200" href="custom-wallpaper.html">
 <span class="material-symbols-outlined">add_a_photo</span>
 <span class="font-label-sm text-label-sm">Custom</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 transition-transform duration-200" href="#">
-<span class="material-symbols-outlined">workspace_premium</span>
-<span class="font-label-sm text-label-sm">Combo</span>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 transition-transform duration-200" href="cart.html">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 transition-transform duration-200" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 transition-transform duration-200" href="account.html">
 <span class="material-symbols-outlined">person</span>
 <span class="font-label-sm text-label-sm">Account</span>
 </a>
@@ -594,6 +611,10 @@ hello@kabe-e.com
             loadPosterRow('polaroidGrid', 'polaroid', 'No polaroids yet — tag a poster as "Polaroid" in the admin panel.');
             loadPosterRow('wallpaperGrid', 'wallpaper', 'No wallpapers yet — tag a poster as "Wallpaper" in the admin panel.');
         }
+
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileNavPanel').classList.toggle('hidden');
+        });
 
         refreshCartBadge();
         loadHeroBanners();
