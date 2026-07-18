@@ -93,8 +93,9 @@
 <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm" href="shop.html?format=polaroid">Polaroid</a>
 <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm" href="shop.html?format=sticker">Sticker</a>
 <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm" href="shop.html?format=wallpaper">Wallpaper</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm" href="shop.html?category=Sketching%2FDrawing">Sketching</a>
 <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm flex items-center gap-1" href="custom-wallpaper.html">
-<span class="material-symbols-outlined text-[16px]">auto_awesome</span> Custom Wallpaper
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span> Custom Poster
 </a>
 </nav>
 </div>
@@ -319,7 +320,7 @@
       description: row.description || '',
       image: row.image || FALLBACK_IMG,
       thumbs: (row.gallery || []).slice(0, 4),
-      sizes: [{ label:'A4', sub:'Standard', delta:0 }, { label:'A3', sub:'+₹200', delta:200 }, { label:'24x36', sub:'+₹600', delta:600 }]
+      sizes: [{ label:'A4', sub:'Standard', delta:0 }, { label:'A3', sub:'+₹200', delta:200 }, { label:'A5', sub:'-₹50', delta:-50 }]
     };
   }
 
