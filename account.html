@@ -1,0 +1,211 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>KABE-E | My Account</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff", "primary-container": "#1a2a44", "tertiary": "#211200",
+                        "surface-bright": "#fbf9f4", "on-error-container": "#93000a", "on-secondary-container": "#fffbff",
+                        "outline-variant": "#c5c6ce", "error": "#ba1a1a", "on-surface-variant": "#44474d",
+                        "on-error": "#ffffff", "surface-container-highest": "#e4e2de", "on-surface": "#1b1c19",
+                        "on-tertiary": "#ffffff", "primary": "#04152e", "surface-dim": "#dbdad5",
+                        "error-container": "#ffdad6", "outline": "#75777e", "background": "#fbf9f4",
+                        "secondary-container": "#df2842", "surface-variant": "#e4e2de", "surface-container-low": "#f5f3ee",
+                        "surface-container-high": "#eae8e3", "on-primary-container": "#8291b1", "surface-container": "#f0eee9",
+                        "surface-container-lowest": "#ffffff", "on-primary": "#ffffff", "surface": "#fbf9f4",
+                        "on-background": "#1b1c19", "inverse-surface": "#30312e", "on-tertiary-container": "#a88c68",
+                        "tertiary-container": "#39260a", "combo-gold": "#b08d2f", "success": "#2f6b3a", "secondary": "#ba002c"
+                    },
+                    "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                    "spacing": { "margin-mobile": "20px", "unit": "8px", "gutter": "24px", "margin-desktop": "64px", "container-max": "900px" },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Playfair Display"], "body-lg": ["Hanken Grotesk"], "label-sm": ["Hanken Grotesk"],
+                        "display-lg": ["Playfair Display"], "body-md": ["Hanken Grotesk"], "headline-md": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .washi-texture { background-color: #fbf9f4; background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png"); }
+        .status-pill { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
+        .status-pending { background: #fff4d6; color: #92700c; }
+        .status-confirmed { background: #dce6f7; color: #1a3a6b; }
+        .status-printing { background: #f0e0d0; color: #6b4a1a; }
+        .status-dispatched { background: #d6ecff; color: #0c5a92; }
+        .status-delivered { background: #d8e8d6; color: #1e4a20; }
+        .status-cancelled { background: #ffdad6; color: #93000a; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md washi-texture min-h-screen">
+
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-white/10 shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4">
+<a class="font-headline-md text-headline-md font-extrabold text-primary tracking-tight" href="kabe-e-homepage.html">KABE-E</a>
+<a href="kabe-e-homepage.html" class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span> Continue Shopping
+</a>
+</header>
+
+<main class="max-w-[900px] mx-auto px-margin-mobile md:px-margin-desktop py-10">
+
+<!-- Signed-out state -->
+<div id="signedOutState" class="hidden text-center py-20 max-w-md mx-auto">
+  <span class="material-symbols-outlined text-[56px] text-outline-variant mb-6 block">account_circle</span>
+  <h1 class="font-headline-md text-display-lg-mobile text-primary mb-3">Sign in to your account</h1>
+  <p class="text-on-surface-variant mb-8">Track your orders, save your address, and check out faster next time.</p>
+  <button id="googleSignInBtn" class="w-full flex items-center justify-center gap-3 border-2 border-outline-variant rounded-full py-4 font-bold hover:bg-surface-container-high transition-colors">
+    <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l6-6C34.5 5.1 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.8-.4-4.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l6-6C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.4 0 10.3-2.1 13.9-5.4l-6.4-5.4C29.5 35.6 26.9 36.5 24 36.5c-5.2 0-9.6-3.3-11.3-8l-6.6 5.1C9.6 40.6 16.3 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.4 5.4C40.9 36.6 45 30.9 45 24c0-1.4-.1-2.8-.4-4.5z"/></svg>
+    Sign in with Google
+  </button>
+  <p class="text-xs text-on-surface-variant mt-6">Google Sign-In requires this site to be hosted (https). It won't work from a local file.</p>
+</div>
+
+<!-- Signed-in state -->
+<div id="signedInState" class="hidden">
+  <div class="flex items-center gap-5 mb-10 pb-10 border-b border-outline-variant/30">
+    <img id="userAvatar" class="w-16 h-16 rounded-full object-cover border-2 border-outline-variant" src="" alt="Profile photo">
+    <div class="flex-1">
+      <h1 id="userName" class="font-headline-md text-headline-md text-primary">Your Name</h1>
+      <p id="userEmail" class="text-on-surface-variant text-sm"></p>
+    </div>
+    <button id="signOutBtn" class="text-secondary font-bold text-sm flex items-center gap-1 hover:opacity-80">
+      <span class="material-symbols-outlined text-[18px]">logout</span> Sign Out
+    </button>
+  </div>
+
+  <h2 class="font-headline-md text-headline-md text-primary mb-6">Your Orders</h2>
+  <div id="ordersList" class="flex flex-col gap-4">
+    <p class="text-on-surface-variant py-10 text-center">Loading your orders...</p>
+  </div>
+</div>
+
+<!-- Loading state -->
+<div id="loadingState" class="text-center py-20">
+  <p class="text-on-surface-variant">Checking your session...</p>
+</div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = 'https://ziqmvzxpvzuratzyreoh.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_QvMLK7aKmXU07TWJwS3DAA_fcV1S22R';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const FALLBACK_IMG = 'data:image/svg+xml;charset=UTF-8,%3Csvg width="80" height="80" xmlns="http://www.w3.org/2000/svg"%3E%3Crect width="100%25" height="100%25" fill="%23e4e2de"/%3E%3C/svg%3E';
+  const FALLBACK_AVATAR = 'data:image/svg+xml;charset=UTF-8,%3Csvg width="64" height="64" xmlns="http://www.w3.org/2000/svg"%3E%3Ccircle cx="32" cy="32" r="32" fill="%23e4e2de"/%3E%3C/svg%3E';
+
+  function showState(id) {
+    ['signedOutState', 'signedInState', 'loadingState'].forEach(s => {
+      document.getElementById(s).classList.toggle('hidden', s !== id);
+    });
+  }
+
+  async function init() {
+    showState('loadingState');
+
+    const { data: { session } } = await sb.auth.getSession();
+
+    if (!session) {
+      // No session at all yet — create an anonymous one so linkIdentity has something to attach to
+      await sb.auth.signInAnonymously();
+    }
+
+    const { data: { user } } = await sb.auth.getUser();
+
+    if (!user || user.is_anonymous) {
+      showState('signedOutState');
+      return;
+    }
+
+    // Signed in with a real identity (Google)
+    const meta = user.user_metadata || {};
+    document.getElementById('userAvatar').src = meta.avatar_url || meta.picture || FALLBACK_AVATAR;
+    document.getElementById('userAvatar').onerror = () => { document.getElementById('userAvatar').src = FALLBACK_AVATAR; };
+    document.getElementById('userName').textContent = meta.full_name || meta.name || 'Kabe-E Customer';
+    document.getElementById('userEmail').textContent = user.email || '';
+    showState('signedInState');
+    loadOrders(user.id);
+  }
+
+  document.getElementById('googleSignInBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('googleSignInBtn');
+    btn.disabled = true;
+    const { error } = await sb.auth.linkIdentity({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + window.location.pathname }
+    });
+    if (error) {
+      alert('Google Sign-In could not start: ' + error.message + '\n\nMost likely cause: this site needs to be hosted over https for Google Sign-In to work — see GOOGLE_LOGIN_SETUP.md');
+      btn.disabled = false;
+    }
+    // On success, the browser redirects to Google and back automatically.
+  });
+
+  document.getElementById('signOutBtn').addEventListener('click', async () => {
+    await sb.auth.signOut();
+    window.location.reload();
+  });
+
+  function money(n) { return '₹' + n.toLocaleString('en-IN'); }
+
+  async function loadOrders(userId) {
+    const list = document.getElementById('ordersList');
+    const { data, error } = await sb.from('orders').select('*, order_items(*)').eq('user_id', userId).order('created_at', { ascending: false });
+
+    if (error) {
+      list.innerHTML = `<p class="text-center text-on-surface-variant py-10">Supabase error: ${error.message}</p>`;
+      return;
+    }
+    if (!data || data.length === 0) {
+      list.innerHTML = `
+        <div class="text-center py-16 border border-outline-variant/30 rounded-2xl bg-surface-container-lowest">
+          <span class="material-symbols-outlined text-[40px] text-outline-variant mb-3 block">receipt_long</span>
+          <p class="text-on-surface-variant mb-6">No orders yet.</p>
+          <a href="kabe-e-homepage.html" class="inline-block bg-primary text-on-primary font-bold px-6 py-3 rounded-full">Start Shopping</a>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = data.map(order => `
+      <div class="border border-outline-variant/30 rounded-xl p-5 bg-surface-container-lowest">
+        <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+          <div>
+            <p class="font-bold text-primary">Order #KE-${order.id}</p>
+            <p class="text-xs text-on-surface-variant">${new Date(order.created_at).toLocaleString('en-IN')}</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="status-pill status-${order.status}">${order.status}</span>
+            <span class="font-bold text-secondary">${money(order.total)}</span>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          ${(order.order_items || []).map(item => `
+            <div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-full">
+              <img src="${item.image_snapshot || FALLBACK_IMG}" onerror="this.src='${FALLBACK_IMG}'" class="w-6 h-6 rounded-full object-cover">
+              <span class="text-xs">${item.quantity}&times; ${item.title_snapshot}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  init();
+</script>
+</body></html>

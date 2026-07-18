@@ -1,0 +1,536 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>KABE-E | Walls That Speak</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#1a2a44",
+                        "tertiary": "#211200",
+                        "surface-bright": "#fbf9f4",
+                        "primary-fixed-dim": "#b7c7e8",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#fffbff",
+                        "outline-variant": "#c5c6ce",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#44474d",
+                        "on-tertiary-fixed": "#291801",
+                        "tertiary-fixed-dim": "#e1c19a",
+                        "secondary-fixed-dim": "#ffb3b3",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e4e2de",
+                        "on-surface": "#1b1c19",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#400009",
+                        "inverse-on-surface": "#f2f1ec",
+                        "on-tertiary-fixed-variant": "#594324",
+                        "on-primary-fixed": "#0a1b35",
+                        "secondary-fixed": "#ffdad9",
+                        "on-secondary-fixed-variant": "#920021",
+                        "on-primary-fixed-variant": "#384763",
+                        "tertiary-fixed": "#ffddb4",
+                        "primary": "#04152e",
+                        "surface-dim": "#dbdad5",
+                        "error-container": "#ffdad6",
+                        "outline": "#75777e",
+                        "background": "#fbf9f4",
+                        "secondary-container": "#df2842",
+                        "surface-variant": "#e4e2de",
+                        "surface-container-low": "#f5f3ee",
+                        "surface-container-high": "#eae8e3",
+                        "on-primary-container": "#8291b1",
+                        "surface-container": "#f0eee9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface": "#fbf9f4",
+                        "on-background": "#1b1c19",
+                        "inverse-surface": "#30312e",
+                        "on-tertiary-container": "#a88c68",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-tint": "#4f5f7c",
+                        "tertiary-container": "#39260a",
+                        "inverse-primary": "#b7c7e8",
+                        "secondary": "#ba002c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "container-max": "1200px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Playfair Display"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "display-lg": ["Playfair Display"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .washi-texture {
+            background-color: #fbf9f4;
+            background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+        }
+        .shoji-grid {
+            background-image: linear-gradient(#e4e2de 1px, transparent 1px), linear-gradient(90deg, #e4e2de 1px, transparent 1px);
+            background-size: 100px 100px;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .hero-slide { opacity: 0; transition: opacity 1.2s ease; }
+        .hero-slide.active { opacity: 0.88; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md washi-texture min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-white/10 shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4">
+<div class="flex items-center gap-8">
+<a class="font-headline-lg text-headline-lg font-extrabold text-primary tracking-tight" href="#">KABE-E</a>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-caps text-label-caps" href="shop.html?format=poster">Poster</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-caps text-label-caps" href="shop.html?format=polaroid">Polaroid</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-caps text-label-caps" href="shop.html?format=sticker">Sticker</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-caps text-label-caps" href="shop.html?format=wallpaper">Wallpaper</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-bright/20 rounded-lg transition-all scale-95 active:scale-90">
+<span class="material-symbols-outlined text-primary">favorite</span>
+</button>
+<a href="cart.html" class="relative p-2 hover:bg-surface-bright/20 rounded-lg transition-all scale-95 active:scale-90 inline-block">
+<span class="material-symbols-outlined text-primary">shopping_cart</span>
+<span id="cartBadge" class="hidden absolute -top-1 -right-1 bg-secondary text-white text-[10px] font-bold w-5 h-5 rounded-full items-center justify-center">0</span>
+</a>
+<a href="account.html" class="p-2 hover:bg-surface-bright/20 rounded-lg transition-all scale-95 active:scale-90 inline-block">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</a>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative h-[620px] flex items-center overflow-hidden bg-surface-container-low shoji-grid">
+<div id="heroSlideTrack" class="absolute inset-0 z-0">
+<!-- Hero slides injected here by JS from Supabase banners -->
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
+</div>
+<div class="relative z-10 px-margin-mobile md:px-margin-desktop w-full">
+<div class="max-w-4xl lg:max-w-5xl mb-12">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-lowest/80 backdrop-blur-md border border-outline-variant/30 rounded-full py-4 pl-12 pr-6 focus:ring-2 focus:ring-primary/20 text-body-md transition-all outline-none shadow-sm hover:shadow-md" placeholder="Search for your aesthetic..." type="text">
+</div>
+</div>
+<div class="max-w-2xl">
+<span id="heroEyebrow" class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-4 block">Premium Art Curation</span>
+<h1 id="heroHeadline" class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary leading-tight mb-6">Walls That Speak</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-lg">
+                    Discover a curated collection of premium posters, high-fidelity stickers, and bespoke wall art inspired by Japanese minimalism and modern aesthetics.
+                </p>
+<div class="flex flex-wrap gap-4 items-center">
+<button id="heroCtaBtn" class="bg-primary text-on-primary px-10 py-4 rounded-xl font-bold hover:scale-[1.02] transition-transform active:scale-95">
+                        Shop Posters
+                    </button>
+<button class="bg-transparent border border-primary text-primary px-10 py-4 rounded-xl font-bold hover:bg-primary/5 transition-colors active:scale-95">
+                        Customize
+                    </button>
+<div class="flex gap-2 ml-2" id="heroDots">
+<!-- Dots injected here by JS to match banner count -->
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Grid -->
+<section class="py-16 px-margin-mobile md:px-margin-desktop">
+<div class="flex overflow-x-auto gap-4 no-scrollbar pb-4 -mx-margin-mobile px-margin-mobile">
+<button class="flex-none bg-primary text-on-primary px-6 py-2.5 rounded-full font-label-sm text-label-sm whitespace-nowrap">All Collections</button>
+<button class="flex-none bg-surface-container-high text-on-surface-variant px-6 py-2.5 rounded-full font-label-sm text-label-sm whitespace-nowrap hover:bg-primary/5 transition-colors">Minimal</button>
+<button class="flex-none bg-surface-container-high text-on-surface-variant px-6 py-2.5 rounded-full font-label-sm text-label-sm whitespace-nowrap hover:bg-primary/5 transition-colors">Anime</button>
+<button class="flex-none bg-surface-container-high text-on-surface-variant px-6 py-2.5 rounded-full font-label-sm text-label-sm whitespace-nowrap hover:bg-primary/5 transition-colors">Japanese Typography</button>
+<button class="flex-none bg-surface-container-high text-on-surface-variant px-6 py-2.5 rounded-full font-label-sm text-label-sm whitespace-nowrap hover:bg-primary/5 transition-colors">Abstract</button>
+<button class="flex-none bg-surface-container-high text-on-surface-variant px-6 py-2.5 rounded-full font-label-sm text-label-sm whitespace-nowrap hover:bg-primary/5 transition-colors">Vintage</button>
+<button class="flex-none bg-surface-container-high text-on-surface-variant px-6 py-2.5 rounded-full font-label-sm text-label-sm whitespace-nowrap hover:bg-primary/5 transition-colors">Gaming Icons</button>
+</div>
+</section>
+<!-- Product Row: Best Sellers -->
+<section class="py-12 px-margin-mobile md:px-margin-desktop">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Best Sellers</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Our community's most loved pieces.</p>
+</div>
+<a class="text-secondary font-bold font-label-sm text-label-sm flex items-center gap-1 group" href="shop.html?format=poster">
+                    View All <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div id="bestSellersGrid" class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Poster cards are injected here by JS from Supabase -->
+</div>
+</section>
+<!-- Sticker Collection -->
+<section class="py-12 px-margin-mobile md:px-margin-desktop">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Stickers</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Die-cut vinyl, ready for laptops and bottles.</p>
+</div>
+<a class="text-secondary font-bold font-label-sm text-label-sm flex items-center gap-1 group" href="shop.html?format=sticker">
+                    View All <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div id="stickerGrid" class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Sticker cards are injected here by JS from Supabase -->
+</div>
+</section>
+<!-- Polaroid Collection -->
+<section class="py-12 px-margin-mobile md:px-margin-desktop">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Polaroids</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Retro mini-prints, perfect for gifting.</p>
+</div>
+<a class="text-secondary font-bold font-label-sm text-label-sm flex items-center gap-1 group" href="shop.html?format=polaroid">
+                    View All <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div id="polaroidGrid" class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Polaroid cards are injected here by JS from Supabase -->
+</div>
+</section>
+<!-- Bento Grid for New Arrivals -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop">
+<h2 class="font-headline-md text-headline-md text-primary mb-12">New Arrivals</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-gutter h-[800px] md:h-[600px]">
+<div class="md:col-span-2 md:row-span-2 relative rounded-2xl overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="A sprawling panoramic poster of a minimalist Japanese garden during autumn. The image features high-resolution details of red maple leaves reflecting in a still dark pond, with geometric stepping stones leading the eye. The lighting is the golden hour, creating deep contrast and warm glows against the cool shadows of the rock formations." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnq1E1TfzujZaVJhDwePDv9ZYgGmboxugH0QVKJN8XAdd0gfE_ELL1pR6l8TUY1Au3DmAa9s68p1Dwvgv5965RDpGBgetNGG2hniXCRJ5mJInK2ZRwWbhIWvl7oC89HEdXgUgN0rlSRHvBU5c0Cqdc2UfyIg2g6I30JnJC_QQvUuJHI8Lsff28kpEf4Q6OnRVZpr14vW-Z8xnfIffN3AoM2nymGKZUxLOz21qIEaWkNUIUMPBposYenQ">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
+<span class="text-white/80 font-label-sm text-label-sm uppercase tracking-widest mb-2">Featured Collection</span>
+<h3 class="text-white font-headline-md text-headline-md mb-4">The Autumn Zen Series</h3>
+<button class="bg-white text-primary px-6 py-3 rounded-xl font-bold w-fit hover:bg-secondary hover:text-white transition-colors">Shop Now</button>
+</div>
+</div>
+<div class="md:col-span-2 relative rounded-2xl overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="A macro detail shot of a premium sticker collection arranged on a clean white desk. The stickers feature minimalist anime icons and bold Japanese typography with a matte finish and vibrant red accents. The lighting is bright and modern, creating soft shadows that emphasize the high-quality texture and precise die-cut edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh9k244SFXOAp_gjxW4h_7XeyHeDMIueyzd79CFzjm8aMC79rHAtcM2nUKUqR6P0PaC_7ZyYMMmGx6VHH9wCEcshvWFKf6CCjiQBtqgVbJBmohJq8ZymRHfdVVMR1H3uB8dK1ZKGVHIUzV3t-12CqEVBJpbt3_WrVSYLX3Y0tMe0iYpb30dHhdd5i_nGJX76JXX-8_e9j6D4VghcXQ65OvB8AJHLYzbcIR1m5yuRPXGWH0Fgdbkts9Zw">
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+<span class="text-white font-headline-md text-headline-md border-b-2 border-white pb-1">Premium Stickers</span>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="A vertical poster featuring a highly detailed close-up of traditional Japanese calligraphy on textured rice paper. The black ink is thick and glossy, with visible brush hair details and organic splatter. The aesthetic is raw and powerful yet perfectly composed in a minimalist frame." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArYM_HLwGT2ovoeG8gDpz_8cTF0p7tRa16mzh0YaJY-g1CAxFpcdYlSmWkFmVxbeGxp4ZQbhsTdBg8Vh-UQ_t8Hm416HGpnpRRohxbbmZX0vqumqVVS0fYBCaBit_5xEloIjdm4fac5tmr2nkD9NsZC_D0Lw9absqPACGKGcS6ePFbClmu6QF7n1TMaqJ18jYytzmaQh1LerfjnF3NXW35YXXLyyueUjVsjT4B_12WpKIKXnH_42UgoA">
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+<span class="text-white font-bold">Calligraphy</span>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" data-alt="A sleek minimalist poster of a futuristic city skyline silhouetted against a massive white sun. The color palette is strictly limited to deep navy and soft ivory. The style is influenced by early 20th-century Japanese woodblock prints but with a sharp, modern digital execution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqDYzQFPKjPT-U3oC8h5VeoocW2U0OrvUJHxsFSpF8R5KeXDMCNPjdATFmfiuQjs94iDxL6C_Cps-q4xidXvO-Nf5iX0dclCWc8fqiGYkixL5OH2xvRIqqLAnPGaBlEKNra3Oa3xHI-yW8vEKERZTHEPw15qFUVRTl26jFcE1CB78N0lcDrPniD-MAwRz3twdGsYWoJbyJ-G2cVTbL_m4shOWOHIqn9HzbBcRZE67tWeQJV1QYGn8EPw">
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+<span class="text-white font-bold">Modernism</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter / Community Section -->
+<section class="py-24 bg-surface-container-highest shoji-grid px-margin-mobile md:px-margin-desktop text-center">
+<div class="max-w-xl mx-auto">
+<span class="material-symbols-outlined text-secondary text-[48px] mb-6">mail</span>
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Join the Minimalist Movement</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-10">
+                    Subscribe to receive exclusive drops, minimalist interior tips, and early access to our seasonal collections.
+                </p>
+<form class="flex flex-col sm:flex-row gap-4">
+<input class="flex-1 bg-surface-container-lowest border border-outline-variant rounded-xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Your email address" type="email">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-bold hover:scale-[1.02] transition-transform active:scale-95">
+                        Subscribe
+                    </button>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/30 w-full px-margin-mobile md:px-margin-desktop py-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-12">
+<div class="col-span-1 md:col-span-1">
+<a class="font-headline-md text-headline-md text-primary font-extrabold mb-6 block" href="#">KABE-E</a>
+<p class="text-on-surface-variant font-body-md pr-8">
+                    Elevating interiors with the beauty of "Ma" and the precision of modern design. Premium posters and art for the discerning eye.
+                </p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-primary uppercase font-bold mb-6">Shop</h4>
+<ul class="space-y-3">
+<li class=""><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">All Posters</a></li>
+<li class=""><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Stickers</a></li>
+<li class=""><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Custom Art</a></li>
+<li class=""><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Wall Decals</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-primary uppercase font-bold mb-6">Support</h4>
+<ul class="space-y-3">
+<li class=""><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Track Order</a></li>
+<li class=""><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">FAQ</a></li>
+<li class=""><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Shipping Policy</a></li>
+<li class=""><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-primary uppercase font-bold mb-6">Follow Us</h4>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">image</span>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<span class="text-on-surface-variant font-label-sm text-label-sm">© 2024 KABE-E. Paisa Vasool Posters. Inspired by Shibui.</span>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline-variant">payments</span>
+<span class="material-symbols-outlined text-outline-variant">credit_card</span>
+<a class="flex items-center gap-2 text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm" href="mailto:hello@kabe-e.com">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+hello@kabe-e.com
+</a>
+</div>
+</div>
+</footer>
+<!-- Mobile Navigation Shell -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-2 md:hidden bg-surface-glass backdrop-blur-xl border-t border-white/10 bg-surface/80 shadow-lg">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome_motion</span>
+<span class="font-label-sm text-label-sm">Shop</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">add_a_photo</span>
+<span class="font-label-sm text-label-sm">Custom</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">workspace_premium</span>
+<span class="font-label-sm text-label-sm">Combo</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Account</span>
+</a>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+        // ---------------- Supabase config ----------------
+        const SUPABASE_URL = 'https://ziqmvzxpvzuratzyreoh.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_QvMLK7aKmXU07TWJwS3DAA_fcV1S22R';
+        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Simple scroll behavior for header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('py-2', 'shadow-md');
+                header.classList.remove('py-4', 'shadow-sm');
+            } else {
+                header.classList.add('py-4', 'shadow-sm');
+                header.classList.remove('py-2', 'shadow-md');
+            }
+        });
+
+        // Hover animations for product cards can be handled via CSS, 
+        // but here's a micro-interaction for the search bar
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.02]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.02]');
+        });
+
+        const FALLBACK_IMG = 'data:image/svg+xml;charset=UTF-8,%3Csvg width="300" height="400" xmlns="http://www.w3.org/2000/svg"%3E%3Crect width="100%25" height="100%25" fill="%23e4e2de"/%3E%3Ctext x="50%25" y="50%25" font-family="sans-serif" font-size="16" fill="%2375777e" text-anchor="middle"%3ENo Image%3C/text%3E%3C/svg%3E';
+
+        // ---------------- Rotating hero banner (from Supabase) ----------------
+        let heroBanners = [];
+        let heroCurrent = 0;
+        let heroInterval = null;
+
+        async function loadHeroBanners() {
+            try {
+                const { data, error } = await sb.from('banners').select('*').order('sort_order', { ascending: true });
+                if (error) {
+                    console.error('Could not load banners', error);
+                    document.getElementById('heroEyebrow').textContent = 'Supabase error';
+                    document.getElementById('heroHeadline').textContent = error.message;
+                    return;
+                }
+                if (!data || data.length === 0) {
+                    document.getElementById('heroEyebrow').textContent = 'No banners yet';
+                    document.getElementById('heroHeadline').textContent = 'Add one in the admin panel';
+                    return;
+                }
+                heroBanners = data;
+            const track = document.getElementById('heroSlideTrack');
+            const dotsRow = document.getElementById('heroDots');
+            track.innerHTML = '';
+            dotsRow.innerHTML = '';
+
+            heroBanners.forEach((b, i) => {
+                const slide = document.createElement('div');
+                slide.className = 'hero-slide w-full h-full bg-cover bg-center absolute inset-0 opacity-90' + (i === 0 ? ' active' : '');
+                slide.style.backgroundImage = `url('${b.image || FALLBACK_IMG}')`;
+                track.appendChild(slide);
+
+                const dot = document.createElement('button');
+                dot.className = 'w-6 h-1.5 rounded-full transition-all ' + (i === 0 ? 'bg-primary' : 'bg-primary/25');
+                dot.dataset.dot = i;
+                dot.addEventListener('click', () => { clearInterval(heroInterval); goToHeroSlide(i); startHeroRotation(); });
+                dotsRow.appendChild(dot);
+            });
+            // gradient overlay goes back on top of slides
+            const gradient = document.createElement('div');
+            gradient.className = 'absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent';
+            track.appendChild(gradient);
+
+            updateHeroCopy(0);
+            startHeroRotation();
+            } catch (err) {
+                console.error('Hero banner load failed', err);
+                document.getElementById('heroEyebrow').textContent = 'Connection error';
+                document.getElementById('heroHeadline').textContent = err.message || 'Could not reach Supabase';
+            }
+        }
+
+        function updateHeroCopy(i) {
+            const b = heroBanners[i];
+            if (!b) return;
+            document.getElementById('heroEyebrow').textContent = b.eyebrow || '';
+            document.getElementById('heroHeadline').textContent = b.headline || '';
+            document.getElementById('heroCtaBtn').textContent = b.cta || 'Shop Now';
+        }
+
+        function goToHeroSlide(i) {
+            const slides = document.querySelectorAll('.hero-slide');
+            const dots = document.querySelectorAll('#heroDots button');
+            slides[heroCurrent].classList.remove('active');
+            dots[heroCurrent].classList.remove('bg-primary');
+            dots[heroCurrent].classList.add('bg-primary/25');
+            heroCurrent = i;
+            slides[heroCurrent].classList.add('active');
+            dots[heroCurrent].classList.add('bg-primary');
+            dots[heroCurrent].classList.remove('bg-primary/25');
+            updateHeroCopy(heroCurrent);
+        }
+
+        function startHeroRotation() {
+            clearInterval(heroInterval);
+            heroInterval = setInterval(() => {
+                goToHeroSlide((heroCurrent + 1) % heroBanners.length);
+            }, 4500);
+        }
+
+        // ---------------- Best Sellers grid (from Supabase) ----------------
+        function posterCardHTML(p) {
+            return `
+                <a href="poster-detail.html?id=${p.id}" class="group cursor-pointer block">
+                    <div class="relative aspect-[3/4] bg-surface-container-highest rounded-xl overflow-hidden mb-4 border border-outline-variant/30 transition-shadow hover:shadow-lg">
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="${p.image || FALLBACK_IMG}" onerror="this.src='${FALLBACK_IMG}'" alt="${p.title}">
+                        ${p.badge ? `<span class="absolute top-4 left-4 bg-primary text-on-primary text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide">${p.badge}</span>` : ''}
+                        <button class="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                            <span class="material-symbols-outlined text-[20px]">favorite</span>
+                        </button>
+                        <div class="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+                            <button class="w-full bg-primary text-on-primary py-2.5 rounded-lg text-label-sm font-bold flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="font-body-md text-primary font-bold">${p.title}</h3>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-on-surface-variant font-label-sm">${p.category || 'Posters'}</span>
+                        <span class="text-secondary font-bold">₹${p.price}${p.original_price ? ` <span class="text-on-surface-variant text-xs line-through font-normal">₹${p.original_price}</span>` : ''}</span>
+                    </div>
+                </a>
+            `;
+        }
+
+        async function loadPosterRow(gridId, formatFilter, emptyLabel) {
+            const grid = document.getElementById(gridId);
+            try {
+                let query = sb.from('posters').select('*').order('created_at', { ascending: false }).limit(4);
+                if (formatFilter) query = query.contains('formats', [formatFilter]);
+                const { data, error } = await query;
+
+                if (error) {
+                    console.error(`Could not load ${gridId}`, error);
+                    grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-10">Supabase error: ${error.message}</p>`;
+                    return;
+                }
+                if (!data || data.length === 0) {
+                    grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-10">${emptyLabel}</p>`;
+                    return;
+                }
+                grid.innerHTML = data.map(posterCardHTML).join('');
+            } catch (err) {
+                console.error(`${gridId} load failed`, err);
+                grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-10">Connection error: ${err.message || err}</p>`;
+            }
+        }
+
+        async function ensureSession() {
+            const { data: { session } } = await sb.auth.getSession();
+            if (session) return session.user.id;
+            const { data, error } = await sb.auth.signInAnonymously();
+            if (error) { console.error('Anonymous sign-in failed', error); return null; }
+            return data.user.id;
+        }
+
+        async function refreshCartBadge() {
+            const userId = await ensureSession();
+            if (!userId) return;
+            const { count } = await sb.from('cart_items').select('*', { count: 'exact', head: true }).eq('user_id', userId);
+            const badge = document.getElementById('cartBadge');
+            if (count && count > 0) {
+                badge.textContent = count;
+                badge.classList.remove('hidden');
+                badge.classList.add('flex');
+            }
+        }
+
+        refreshCartBadge();
+        loadHeroBanners();
+        loadPosterRow('bestSellersGrid', null, 'No posters yet — add some in the admin panel.');
+        loadPosterRow('stickerGrid', 'sticker', 'No stickers yet — tag a poster as "Sticker" in the admin panel.');
+        loadPosterRow('polaroidGrid', 'polaroid', 'No polaroids yet — tag a poster as "Polaroid" in the admin panel.');
+    </script>
+
+
+</body></html>

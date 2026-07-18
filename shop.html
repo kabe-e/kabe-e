@@ -1,0 +1,290 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>KABE-E | Shop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#1a2a44",
+                        "tertiary": "#211200",
+                        "surface-bright": "#fbf9f4",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#fffbff",
+                        "outline-variant": "#c5c6ce",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#44474d",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e4e2de",
+                        "on-surface": "#1b1c19",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#04152e",
+                        "surface-dim": "#dbdad5",
+                        "error-container": "#ffdad6",
+                        "outline": "#75777e",
+                        "background": "#fbf9f4",
+                        "secondary-container": "#df2842",
+                        "surface-variant": "#e4e2de",
+                        "surface-container-low": "#f5f3ee",
+                        "surface-container-high": "#eae8e3",
+                        "on-primary-container": "#8291b1",
+                        "surface-container": "#f0eee9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface": "#fbf9f4",
+                        "on-background": "#1b1c19",
+                        "inverse-surface": "#30312e",
+                        "on-tertiary-container": "#a88c68",
+                        "tertiary-container": "#39260a",
+                        "secondary": "#ba002c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px", "unit": "8px", "gutter": "24px",
+                        "margin-desktop": "64px", "container-max": "1200px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Playfair Display"], "body-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"], "display-lg": ["Playfair Display"],
+                        "body-md": ["Hanken Grotesk"], "headline-md": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .washi-texture { background-color: #fbf9f4; background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png"); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .filter-chip.active { background: #04152e; color: #ffffff; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md washi-texture min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-white/10 shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4">
+<div class="flex items-center gap-8">
+<a class="font-headline-md text-headline-md font-extrabold text-primary tracking-tight" href="kabe-e-homepage.html">KABE-E</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-bright/20 rounded-lg transition-all scale-95 active:scale-90">
+<span class="material-symbols-outlined text-primary">favorite</span>
+</button>
+<a href="cart.html" class="relative p-2 hover:bg-surface-bright/20 rounded-lg transition-all scale-95 active:scale-90 inline-block">
+<span class="material-symbols-outlined text-primary">shopping_cart</span>
+<span id="cartBadge" class="hidden absolute -top-1 -right-1 bg-secondary text-white text-[10px] font-bold w-5 h-5 rounded-full items-center justify-center">0</span>
+</a>
+<a href="account.html" class="p-2 hover:bg-surface-bright/20 rounded-lg transition-all scale-95 active:scale-90 inline-block">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</a>
+</div>
+</header>
+
+<!-- Breadcrumb -->
+<div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop pt-6 text-sm text-on-surface-variant flex items-center gap-2">
+<a class="hover:text-primary transition-colors" href="kabe-e-homepage.html">Home</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span id="crumbLabel" class="text-primary font-medium">Shop</span>
+</div>
+
+<main class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-8">
+<h1 id="pageTitle" class="font-headline-md text-display-lg-mobile md:text-display-lg text-primary mb-3">All Posters</h1>
+<p id="pageSubtitle" class="text-on-surface-variant font-body-lg mb-8">Every design, all in one place.</p>
+
+<!-- Format filter chips -->
+<div class="flex gap-3 mb-10 overflow-x-auto no-scrollbar pb-1" id="filterChips">
+<button data-format="" class="filter-chip active font-label-sm text-label-sm px-5 py-2.5 rounded-full border border-outline-variant whitespace-nowrap transition-all">All</button>
+<button data-format="poster" class="filter-chip font-label-sm text-label-sm px-5 py-2.5 rounded-full border border-outline-variant whitespace-nowrap transition-all">Posters</button>
+<button data-format="sticker" class="filter-chip font-label-sm text-label-sm px-5 py-2.5 rounded-full border border-outline-variant whitespace-nowrap transition-all">Stickers</button>
+<button data-format="polaroid" class="filter-chip font-label-sm text-label-sm px-5 py-2.5 rounded-full border border-outline-variant whitespace-nowrap transition-all">Polaroids</button>
+<button data-format="wallpaper" class="filter-chip font-label-sm text-label-sm px-5 py-2.5 rounded-full border border-outline-variant whitespace-nowrap transition-all">Wallpapers</button>
+</div>
+
+<div id="shopGrid" class="grid grid-cols-2 md:grid-cols-4 gap-gutter min-h-[300px]">
+<!-- Poster cards injected here by JS from Supabase -->
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/30 w-full px-margin-mobile md:px-margin-desktop py-12 mt-16">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-12">
+<div class="col-span-1 md:col-span-1">
+<a class="font-headline-md text-headline-md text-primary font-extrabold mb-6 block" href="kabe-e-homepage.html">KABE-E</a>
+<p class="text-on-surface-variant font-body-md pr-8">
+                    Elevating interiors with the beauty of "Ma" and the precision of modern design. Premium posters and art for the discerning eye.
+                </p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-primary uppercase font-bold mb-6">Shop</h4>
+<ul class="space-y-3">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="shop.html?format=poster">All Posters</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="shop.html?format=sticker">Stickers</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="shop.html?format=polaroid">Polaroids</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="shop.html?format=wallpaper">Wallpapers</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-primary uppercase font-bold mb-6">Support</h4>
+<ul class="space-y-3">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Track Order</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">FAQ</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Shipping Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-primary uppercase font-bold mb-6">Follow Us</h4>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">image</span>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<span class="text-on-surface-variant font-label-sm text-label-sm">© 2024 KABE-E. Paisa Vasool Posters. Inspired by Shibui.</span>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline-variant">payments</span>
+<span class="material-symbols-outlined text-outline-variant">credit_card</span>
+<a class="flex items-center gap-2 text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm" href="mailto:hello@kabe-e.com">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+hello@kabe-e.com
+</a>
+</div>
+</div>
+</footer>
+
+<!-- Mobile Navigation Shell -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-2 md:hidden bg-surface/80 backdrop-blur-xl border-t border-white/10 shadow-lg">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 active:scale-95 transition-transform duration-200" href="kabe-e-homepage.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome_motion</span>
+<span class="font-label-sm text-label-sm">Shop</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="kabe-e-homepage.html">
+<span class="material-symbols-outlined">add_a_photo</span>
+<span class="font-label-sm text-label-sm">Custom</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Account</span>
+</a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = 'https://ziqmvzxpvzuratzyreoh.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_QvMLK7aKmXU07TWJwS3DAA_fcV1S22R';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const FALLBACK_IMG = 'data:image/svg+xml;charset=UTF-8,%3Csvg width="300" height="400" xmlns="http://www.w3.org/2000/svg"%3E%3Crect width="100%25" height="100%25" fill="%23e4e2de"/%3E%3Ctext x="50%25" y="50%25" font-family="sans-serif" font-size="16" fill="%2375777e" text-anchor="middle"%3ENo Image%3C/text%3E%3C/svg%3E';
+
+  const labels = { '': 'All Posters', poster: 'Posters', sticker: 'Stickers', polaroid: 'Polaroids', wallpaper: 'Wallpapers' };
+  const subtitles = {
+    '': 'Every design, all in one place.',
+    poster: 'Premium wall posters, printed and shipped.',
+    sticker: 'Die-cut vinyl, ready for laptops and bottles.',
+    polaroid: 'Retro mini-prints, perfect for gifting.',
+    wallpaper: 'Instant digital downloads for your phone or desktop.'
+  };
+
+  function posterCardHTML(p) {
+    return `
+      <a href="poster-detail.html?id=${p.id}" class="group cursor-pointer block">
+        <div class="relative aspect-[3/4] bg-surface-container-highest rounded-xl overflow-hidden mb-4 border border-outline-variant/30 transition-shadow hover:shadow-lg">
+          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="${p.image || FALLBACK_IMG}" onerror="this.src='${FALLBACK_IMG}'" alt="${p.title}">
+          ${p.badge ? `<span class="absolute top-4 left-4 bg-primary text-on-primary text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide">${p.badge}</span>` : ''}
+        </div>
+        <h3 class="font-body-md text-primary font-bold">${p.title}</h3>
+        <div class="flex justify-between items-center mt-1">
+          <span class="text-on-surface-variant font-label-sm">${p.category || 'Posters'}</span>
+          <span class="text-secondary font-bold">₹${p.price}${p.original_price ? ` <span class="text-on-surface-variant text-xs line-through font-normal">₹${p.original_price}</span>` : ''}</span>
+        </div>
+      </a>
+    `;
+  }
+
+  async function loadShop(formatFilter) {
+    const grid = document.getElementById('shopGrid');
+    grid.innerHTML = '<p class="col-span-4 text-center text-on-surface-variant py-16">Loading...</p>';
+    try {
+      let query = sb.from('posters').select('*').order('created_at', { ascending: false });
+      if (formatFilter) query = query.contains('formats', [formatFilter]);
+      const { data, error } = await query;
+
+      if (error) {
+        grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">Supabase error: ${error.message}</p>`;
+        return;
+      }
+      if (!data || data.length === 0) {
+        grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">Nothing here yet — add posters in the admin panel${formatFilter ? ` and tag them as "${formatFilter}"` : ''}.</p>`;
+        return;
+      }
+      grid.innerHTML = data.map(posterCardHTML).join('');
+    } catch (err) {
+      grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">Connection error: ${err.message || err}</p>`;
+    }
+  }
+
+  function applyFormat(formatFilter) {
+    document.getElementById('pageTitle').textContent = labels[formatFilter] ?? 'All Posters';
+    document.getElementById('pageSubtitle').textContent = subtitles[formatFilter] ?? '';
+    document.getElementById('crumbLabel').textContent = labels[formatFilter] ?? 'Shop';
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.classList.toggle('active', chip.dataset.format === formatFilter);
+    });
+    loadShop(formatFilter);
+  }
+
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const url = new URL(window.location.href);
+      if (chip.dataset.format) url.searchParams.set('format', chip.dataset.format);
+      else url.searchParams.delete('format');
+      window.history.replaceState({}, '', url);
+      applyFormat(chip.dataset.format);
+    });
+  });
+
+  async function ensureSession() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) return session.user.id;
+    const { data, error } = await sb.auth.signInAnonymously();
+    if (error) { console.error('Anonymous sign-in failed', error); return null; }
+    return data.user.id;
+  }
+
+  async function refreshCartBadge() {
+    const userId = await ensureSession();
+    if (!userId) return;
+    const { count } = await sb.from('cart_items').select('*', { count: 'exact', head: true }).eq('user_id', userId);
+    const badge = document.getElementById('cartBadge');
+    if (count && count > 0) {
+      badge.textContent = count;
+      badge.classList.remove('hidden');
+      badge.classList.add('flex');
+    }
+  }
+  refreshCartBadge();
+
+  const initialFormat = new URLSearchParams(window.location.search).get('format') || '';
+  applyFormat(initialFormat);
+</script>
+</body></html>

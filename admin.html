@@ -1,0 +1,877 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>KABE-E | Admin Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#1a2a44",
+                        "tertiary": "#211200",
+                        "surface-bright": "#fbf9f4",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#fffbff",
+                        "outline-variant": "#c5c6ce",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#44474d",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e4e2de",
+                        "on-surface": "#1b1c19",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#04152e",
+                        "surface-dim": "#dbdad5",
+                        "error-container": "#ffdad6",
+                        "outline": "#75777e",
+                        "background": "#fbf9f4",
+                        "secondary-container": "#df2842",
+                        "surface-variant": "#e4e2de",
+                        "surface-container-low": "#f5f3ee",
+                        "surface-container-high": "#eae8e3",
+                        "on-primary-container": "#8291b1",
+                        "surface-container": "#f0eee9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface": "#fbf9f4",
+                        "on-background": "#1b1c19",
+                        "inverse-surface": "#30312e",
+                        "on-tertiary-container": "#a88c68",
+                        "tertiary-container": "#39260a",
+                        "success": "#2f6b3a",
+                        "on-success-container": "#0c2a12",
+                        "success-container": "#d8e8d6",
+                        "secondary": "#ba002c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px", "unit": "8px", "gutter": "24px",
+                        "margin-desktop": "64px", "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Playfair Display"], "body-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"], "display-lg": ["Playfair Display"],
+                        "body-md": ["Hanken Grotesk"], "headline-md": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .washi-texture { background-color: #fbf9f4; background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png"); }
+        .admin-tab.active { background: #04152e; color: #ffffff; }
+        .admin-tab { color: #44474d; }
+        input[type="text"], input[type="number"], input[type="url"], select, textarea {
+            background: #ffffff; border: 1px solid #c5c6ce; border-radius: 0.5rem;
+            padding: 10px 14px; width: 100%; outline: none; font-family: 'Hanken Grotesk', sans-serif;
+        }
+        input:focus, select:focus, textarea:focus { border-color: #04152e; box-shadow: 0 0 0 2px rgba(4,21,46,0.1); }
+        label.field-label { font-family: 'Hanken Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #44474d; display:block; margin-bottom: 6px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .banner-thumb.active-slide { outline: 3px solid #ba002c; outline-offset: -3px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md washi-texture min-h-screen">
+
+<!-- Header -->
+<header class="bg-surface/90 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant/30 shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4">
+<div class="flex items-center gap-4">
+<a class="font-headline-md text-headline-md font-extrabold text-primary tracking-tight" href="kabe-e-homepage.html">KABE-E</a>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-high px-3 py-1 rounded-full">Admin Panel</span>
+</div>
+<a href="kabe-e-homepage.html" class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-body-md">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+View Site
+</a>
+</header>
+
+<!-- Prototype notice -->
+<div class="bg-tertiary-container/20 border-b border-outline-variant/30 px-margin-mobile md:px-margin-desktop py-2.5 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-secondary">info</span>
+<p class="font-body-md text-sm text-on-surface-variant">This is a frontend prototype — changes here live only in this browser tab and reset on reload. Connect Supabase to persist data to the real site.</p>
+</div>
+
+<main class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-10">
+
+  <!-- Stats -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-gutter mb-10">
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-5">
+      <p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Total Posters</p>
+      <p id="statPosters" class="font-headline-md text-headline-md text-primary">0</p>
+    </div>
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-5">
+      <p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Active Banners</p>
+      <p id="statBanners" class="font-headline-md text-headline-md text-primary">0</p>
+    </div>
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-5">
+      <p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Categories</p>
+      <p id="statCategories" class="font-headline-md text-headline-md text-primary">0</p>
+    </div>
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-5">
+      <p class="font-label-sm text-label-sm text-on-surface-variant mb-1">Avg. Price</p>
+      <p id="statAvgPrice" class="font-headline-md text-headline-md text-primary">₹0</p>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex gap-2 p-1 rounded-full w-max bg-surface-container-high mb-10" id="adminTabs">
+    <button data-tab="posters" class="admin-tab active flex items-center gap-2 font-label-sm text-label-sm px-5 py-2.5 rounded-full transition-all">
+      <span class="material-symbols-outlined text-[18px]">image</span> Posters
+    </button>
+    <button data-tab="banners" class="admin-tab flex items-center gap-2 font-label-sm text-label-sm px-5 py-2.5 rounded-full transition-all">
+      <span class="material-symbols-outlined text-[18px]">view_carousel</span> Banners
+    </button>
+    <button data-tab="orders" class="admin-tab flex items-center gap-2 font-label-sm text-label-sm px-5 py-2.5 rounded-full transition-all">
+      <span class="material-symbols-outlined text-[18px]">receipt_long</span> Orders
+    </button>
+  </div>
+
+  <!-- ===================== POSTERS PANEL ===================== -->
+  <section id="panel-posters" class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+
+    <!-- Poster form -->
+    <div class="lg:col-span-1 bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 h-fit sticky top-24">
+      <h3 id="posterFormTitle" class="font-headline-md text-headline-md text-primary mb-6">Add New Poster</h3>
+      <form id="posterForm" class="flex flex-col gap-4">
+        <div>
+          <label class="field-label">Title</label>
+          <input type="text" id="pTitle" placeholder="e.g. Zen Equilibrium" required>
+        </div>
+        <div>
+          <label class="field-label">Category</label>
+          <select id="pCategory">
+            <option>Minimal</option>
+            <option>Anime</option>
+            <option>Japanese Typography</option>
+            <option>Abstract</option>
+            <option>Vintage</option>
+            <option>Gaming Icons</option>
+            <option>Movies</option>
+            <option>Music</option>
+            <option>Sports</option>
+            <option>Luxury</option>
+            <option>Cars</option>
+            <option>Bikes</option>
+            <option>Motivational</option>
+            <option>Devotional</option>
+            <option>Nature</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="field-label">Original Price (₹)</label>
+            <input type="number" id="pOriginalPrice" placeholder="499" min="0">
+          </div>
+          <div>
+            <label class="field-label">Discount %</label>
+            <input type="number" id="pDiscount" placeholder="e.g. 20" min="0" max="90">
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Price (₹) <span class="normal-case font-normal text-outline">— auto-fills from discount, editable</span></label>
+          <input type="number" id="pPrice" placeholder="299" min="0" required>
+        </div>
+        <div>
+          <label class="field-label">Description</label>
+          <textarea id="pDescription" rows="3" placeholder="Short description shown on the product detail page..."></textarea>
+        </div>
+
+        <!-- Hero image -->
+        <div>
+          <label class="field-label">Hero Image (main image)</label>
+          <div class="flex items-center gap-3">
+            <div id="heroPreviewWrap" class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container-high shrink-0 border border-outline-variant/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-outline text-[22px]">image</span>
+              <img id="heroPreviewImg" class="hidden w-full h-full object-cover" alt="Hero preview">
+            </div>
+            <div class="flex-1">
+              <input type="file" id="pImageFile" accept="image/*" class="text-sm">
+              <input type="url" id="pImage" placeholder="...or paste an image URL" class="mt-2">
+            </div>
+          </div>
+        </div>
+
+        <!-- Gallery images -->
+        <div>
+          <label class="field-label">Gallery Images (up to 4)</label>
+          <input type="file" id="pGalleryFiles" accept="image/*" multiple class="text-sm mb-3">
+          <div id="galleryPreviewRow" class="grid grid-cols-4 gap-2"></div>
+        </div>
+
+        <div>
+          <label class="field-label">Badge</label>
+          <select id="pBadge">
+            <option value="">None</option>
+            <option>Bestseller</option>
+            <option>New In</option>
+            <option>Trending</option>
+            <option>Limited Edition</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Available Formats</label>
+          <div class="flex gap-4 flex-wrap">
+            <label class="flex items-center gap-2 font-body-md text-sm"><input type="checkbox" class="pFormat" value="poster" checked> Poster</label>
+            <label class="flex items-center gap-2 font-body-md text-sm"><input type="checkbox" class="pFormat" value="polaroid"> Polaroid</label>
+            <label class="flex items-center gap-2 font-body-md text-sm"><input type="checkbox" class="pFormat" value="wallpaper"> Wallpaper</label>
+            <label class="flex items-center gap-2 font-body-md text-sm"><input type="checkbox" class="pFormat" value="sticker"> Sticker</label>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-2">
+          <button type="submit" id="posterSubmitBtn" class="flex-1 bg-primary text-on-primary py-3 rounded-xl font-bold hover:scale-[1.01] active:scale-95 transition-transform">
+            Add Poster
+          </button>
+          <button type="button" id="posterCancelBtn" class="hidden px-4 py-3 rounded-xl border border-outline-variant text-on-surface-variant font-bold hover:bg-surface-container-high transition-colors">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Poster list -->
+    <div class="lg:col-span-2">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-headline-md text-headline-md text-primary">Poster Catalogue</h3>
+        <input type="text" id="posterSearch" placeholder="Filter by title or category..." class="max-w-xs">
+      </div>
+      <div id="posterGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+    </div>
+  </section>
+
+  <!-- ===================== BANNERS PANEL ===================== -->
+  <section id="panel-banners" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+
+    <!-- Banner form -->
+    <div class="lg:col-span-1 bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 h-fit sticky top-24">
+      <h3 id="bannerFormTitle" class="font-headline-md text-headline-md text-primary mb-6">Add New Banner</h3>
+      <form id="bannerForm" class="flex flex-col gap-4">
+        <div>
+          <label class="field-label">Banner Image</label>
+          <div class="flex items-center gap-3">
+            <div id="bannerPreviewWrap" class="w-20 h-14 rounded-lg overflow-hidden bg-surface-container-high shrink-0 border border-outline-variant/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-outline text-[20px]">view_carousel</span>
+              <img id="bannerPreviewImg" class="hidden w-full h-full object-cover" alt="Banner preview">
+            </div>
+            <div class="flex-1">
+              <input type="file" id="bImageFile" accept="image/*" class="text-sm">
+              <input type="url" id="bImage" placeholder="...or paste an image URL" class="mt-2">
+            </div>
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Eyebrow Label</label>
+          <input type="text" id="bEyebrow" placeholder="e.g. Premium Art Curation">
+        </div>
+        <div>
+          <label class="field-label">Headline</label>
+          <input type="text" id="bHeadline" placeholder="e.g. Walls That Speak">
+        </div>
+        <div>
+          <label class="field-label">CTA Button Text</label>
+          <input type="text" id="bCta" placeholder="e.g. Shop Posters">
+        </div>
+        <div class="flex gap-3 mt-2">
+          <button type="submit" id="bannerSubmitBtn" class="flex-1 bg-primary text-on-primary py-3 rounded-xl font-bold hover:scale-[1.01] active:scale-95 transition-transform">
+            Add Banner
+          </button>
+          <button type="button" id="bannerCancelBtn" class="hidden px-4 py-3 rounded-xl border border-outline-variant text-on-surface-variant font-bold hover:bg-surface-container-high transition-colors">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Banner list + preview -->
+    <div class="lg:col-span-2">
+      <h3 class="font-headline-md text-headline-md text-primary mb-4">Hero Rotation Order</h3>
+      <p class="text-on-surface-variant text-sm mb-4">These slides rotate on the homepage in the order shown below. Use the arrows to reorder.</p>
+      <div id="bannerList" class="flex flex-col gap-4"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ORDERS PANEL ===================== -->
+  <section id="panel-orders" class="hidden">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 class="font-headline-md text-headline-md text-primary">Customer Orders</h3>
+        <p class="text-on-surface-variant text-sm">Update status as orders move through printing and shipping.</p>
+      </div>
+      <select id="orderStatusFilter" class="max-w-xs">
+        <option value="">All Statuses</option>
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="printing">Printing</option>
+        <option value="dispatched">Dispatched</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+    <div id="ordersList" class="flex flex-col gap-4"></div>
+  </section>
+
+</main>
+
+<script>
+  // ---------------- Supabase config ----------------
+  // Paste your Project URL and anon public key from Supabase → Project Settings → API
+  const SUPABASE_URL = 'https://ziqmvzxpvzuratzyreoh.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_QvMLK7aKmXU07TWJwS3DAA_fcV1S22R';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const IMAGE_BUCKET = 'poster-images';
+
+  // ---------------- State ----------------
+  let posters = [];
+  let banners = [];
+  let editingPosterId = null;
+  let editingBannerId = null;
+  let heroImageData = null;
+  let galleryImagesData = [];
+  let bannerImageData = null;
+  let isComputingPrice = false;
+
+  const FALLBACK_IMG = 'data:image/svg+xml;charset=UTF-8,%3Csvg width="300" height="400" xmlns="http://www.w3.org/2000/svg"%3E%3Crect width="100%25" height="100%25" fill="%23e4e2de"/%3E%3Ctext x="50%25" y="50%25" font-family="sans-serif" font-size="16" fill="%2375777e" text-anchor="middle"%3ENo Image%3C/text%3E%3C/svg%3E';
+
+  // ---------------- DB <-> JS field mapping ----------------
+  function fromDbPoster(row) {
+    return {
+      id: row.id, title: row.title, category: row.category, price: row.price,
+      originalPrice: row.original_price, discount: row.discount, description: row.description,
+      image: row.image, gallery: row.gallery || [], badge: row.badge, formats: row.formats || ['poster']
+    };
+  }
+  function toDbPoster(p) {
+    return {
+      title: p.title, category: p.category, price: p.price, original_price: p.originalPrice,
+      discount: p.discount, description: p.description, image: p.image, gallery: p.gallery,
+      badge: p.badge, formats: p.formats
+    };
+  }
+  function fromDbBanner(row) {
+    return { id: row.id, image: row.image, eyebrow: row.eyebrow, headline: row.headline, cta: row.cta, sortOrder: row.sort_order };
+  }
+  function toDbBanner(b) {
+    return { image: b.image, eyebrow: b.eyebrow, headline: b.headline, cta: b.cta, sort_order: b.sortOrder };
+  }
+
+  // ---------------- Loaders ----------------
+  async function loadPosters() {
+    const { data, error } = await sb.from('posters').select('*').order('created_at', { ascending: false });
+    if (error) { console.error(error); alert('Could not load posters: ' + error.message); return; }
+    posters = data.map(fromDbPoster);
+    renderPosters(document.getElementById('posterSearch').value);
+    updateStats();
+  }
+
+  async function loadBanners() {
+    const { data, error } = await sb.from('banners').select('*').order('sort_order', { ascending: true });
+    if (error) { console.error(error); alert('Could not load banners: ' + error.message); return; }
+    banners = data.map(fromDbBanner);
+    renderBanners();
+    updateStats();
+  }
+
+  // ---------------- Stats ----------------
+  function updateStats() {
+    document.getElementById('statPosters').textContent = posters.length;
+    document.getElementById('statBanners').textContent = banners.length;
+    document.getElementById('statCategories').textContent = new Set(posters.map(p => p.category)).size;
+    const avg = posters.length ? Math.round(posters.reduce((s, p) => s + p.price, 0) / posters.length) : 0;
+    document.getElementById('statAvgPrice').textContent = '₹' + avg;
+  }
+
+  // ---------------- Poster rendering ----------------
+  function renderPosters(filter = '') {
+    const grid = document.getElementById('posterGrid');
+    const q = filter.trim().toLowerCase();
+    const list = posters.filter(p => !q || p.title.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+    grid.innerHTML = '';
+    if (list.length === 0) {
+      grid.innerHTML = '<p class="text-on-surface-variant col-span-2 py-10 text-center">No posters match your filter.</p>';
+      return;
+    }
+    list.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden flex gap-4 p-3';
+      const discountPct = p.originalPrice && p.originalPrice > p.price ? Math.round((1 - p.price / p.originalPrice) * 100) : (p.discount || 0);
+      card.innerHTML = `
+        <div class="w-20 h-24 rounded-lg overflow-hidden shrink-0 bg-surface-container-high relative">
+          <img src="${p.image || FALLBACK_IMG}" onerror="this.src='${FALLBACK_IMG}'" class="w-full h-full object-cover" alt="${p.title}">
+          ${discountPct > 0 ? `<span class="absolute top-1 right-1 bg-secondary text-on-secondary text-[9px] font-bold px-1.5 py-0.5 rounded">-${discountPct}%</span>` : ''}
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-2">
+            <h4 class="font-bold text-primary truncate">${p.title}</h4>
+            ${p.badge ? `<span class="font-label-sm text-label-sm bg-secondary-container/20 text-secondary px-2 py-0.5 rounded-full shrink-0">${p.badge}</span>` : ''}
+          </div>
+          <p class="text-on-surface-variant text-sm mb-1">${p.category}</p>
+          <p class="font-bold text-secondary">₹${p.price} ${p.originalPrice ? `<span class="text-on-surface-variant text-xs line-through font-normal">₹${p.originalPrice}</span>` : ''}</p>
+          <p class="text-xs text-on-surface-variant mt-1">${p.formats.map(f => f[0].toUpperCase()+f.slice(1)).join(' · ')}${p.gallery && p.gallery.length ? ` · ${p.gallery.length} gallery img${p.gallery.length > 1 ? 's' : ''}` : ''}</p>
+          ${p.description ? `<p class="text-xs text-on-surface-variant mt-1 line-clamp-2">${p.description}</p>` : ''}
+          <div class="flex gap-2 mt-2">
+            <button class="edit-poster-btn text-xs font-bold text-primary flex items-center gap-1" data-id="${p.id}"><span class="material-symbols-outlined text-[14px]">edit</span>Edit</button>
+            <button class="delete-poster-btn text-xs font-bold text-secondary flex items-center gap-1" data-id="${p.id}"><span class="material-symbols-outlined text-[14px]">delete</span>Delete</button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    grid.querySelectorAll('.edit-poster-btn').forEach(btn => btn.addEventListener('click', () => startEditPoster(parseInt(btn.dataset.id))));
+    grid.querySelectorAll('.delete-poster-btn').forEach(btn => btn.addEventListener('click', async () => {
+      if (confirm('Delete this poster?')) {
+        const { error } = await sb.from('posters').delete().eq('id', parseInt(btn.dataset.id));
+        if (error) { alert('Delete failed: ' + error.message); return; }
+        await loadPosters();
+      }
+    }));
+  }
+
+  function startEditPoster(id) {
+    const p = posters.find(x => x.id === id);
+    if (!p) return;
+    editingPosterId = id;
+    document.getElementById('pTitle').value = p.title;
+    document.getElementById('pCategory').value = p.category;
+    document.getElementById('pOriginalPrice').value = p.originalPrice || '';
+    document.getElementById('pDiscount').value = p.discount || '';
+    document.getElementById('pPrice').value = p.price;
+    document.getElementById('pDescription').value = p.description || '';
+    document.getElementById('pImage').value = (p.image || '').startsWith('data:') ? '' : (p.image || '');
+    document.getElementById('pBadge').value = p.badge;
+    document.querySelectorAll('.pFormat').forEach(cb => cb.checked = p.formats.includes(cb.value));
+
+    heroImageData = (p.image || '').startsWith('data:') ? p.image : null;
+    galleryImagesData = (p.gallery || []).slice(0, 4);
+    updateHeroPreview(p.image);
+    renderGalleryPreview();
+
+    document.getElementById('posterFormTitle').textContent = 'Edit Poster';
+    document.getElementById('posterSubmitBtn').textContent = 'Save Changes';
+    document.getElementById('posterCancelBtn').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function resetPosterForm() {
+    editingPosterId = null;
+    document.getElementById('posterForm').reset();
+    document.querySelector('.pFormat[value="poster"]').checked = true;
+    document.getElementById('posterFormTitle').textContent = 'Add New Poster';
+    document.getElementById('posterSubmitBtn').textContent = 'Add Poster';
+    document.getElementById('posterCancelBtn').classList.add('hidden');
+    heroImageData = null;
+    galleryImagesData = [];
+    updateHeroPreview('');
+    renderGalleryPreview();
+  }
+
+  document.getElementById('posterForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('posterSubmitBtn');
+    const originalLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+
+    try {
+      const formats = Array.from(document.querySelectorAll('.pFormat:checked')).map(cb => cb.value);
+      const data = {
+        title: document.getElementById('pTitle').value.trim(),
+        category: document.getElementById('pCategory').value,
+        price: parseInt(document.getElementById('pPrice').value, 10) || 0,
+        originalPrice: document.getElementById('pOriginalPrice').value ? parseInt(document.getElementById('pOriginalPrice').value, 10) : null,
+        discount: document.getElementById('pDiscount').value ? parseInt(document.getElementById('pDiscount').value, 10) : null,
+        description: document.getElementById('pDescription').value.trim(),
+        image: heroImageData || document.getElementById('pImage').value.trim(),
+        gallery: galleryImagesData.slice(0, 4),
+        badge: document.getElementById('pBadge').value,
+        formats: formats.length ? formats : ['poster']
+      };
+
+      let error;
+      if (editingPosterId) {
+        ({ error } = await sb.from('posters').update(toDbPoster(data)).eq('id', editingPosterId));
+      } else {
+        ({ error } = await sb.from('posters').insert(toDbPoster(data)));
+      }
+
+      if (error) { alert('Save failed: ' + error.message + (error.hint ? '\n\nHint: ' + error.hint : '')); return; }
+      resetPosterForm();
+      await loadPosters();
+    } catch (err) {
+      console.error(err);
+      alert('Something went wrong saving this poster: ' + (err.message || err));
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+    }
+  });
+
+  document.getElementById('posterCancelBtn').addEventListener('click', resetPosterForm);
+  document.getElementById('posterSearch').addEventListener('input', (e) => renderPosters(e.target.value));
+
+  // ---------------- Banner rendering ----------------
+  function renderBanners() {
+    const list = document.getElementById('bannerList');
+    list.innerHTML = '';
+    banners.forEach((b, i) => {
+      const row = document.createElement('div');
+      row.className = 'bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden flex gap-4 p-3 items-center';
+      row.innerHTML = `
+        <span class="font-headline-md text-headline-md text-outline-variant w-6 text-center shrink-0">${i + 1}</span>
+        <div class="w-28 h-16 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+          <img src="${b.image || FALLBACK_IMG}" onerror="this.src='${FALLBACK_IMG}'" class="w-full h-full object-cover" alt="${b.headline}">
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">${b.eyebrow || ''}</p>
+          <h4 class="font-bold text-primary truncate">${b.headline || 'Untitled banner'}</h4>
+          <p class="text-xs text-on-surface-variant">CTA: ${b.cta || '—'}</p>
+        </div>
+        <div class="flex flex-col gap-1 shrink-0">
+          <button class="move-up-btn p-1.5 rounded hover:bg-surface-container-high disabled:opacity-30" data-id="${b.id}" ${i === 0 ? 'disabled' : ''}><span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span></button>
+          <button class="move-down-btn p-1.5 rounded hover:bg-surface-container-high disabled:opacity-30" data-id="${b.id}" ${i === banners.length - 1 ? 'disabled' : ''}><span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span></button>
+        </div>
+        <div class="flex flex-col gap-2 shrink-0">
+          <button class="edit-banner-btn text-xs font-bold text-primary flex items-center gap-1" data-id="${b.id}"><span class="material-symbols-outlined text-[14px]">edit</span>Edit</button>
+          <button class="delete-banner-btn text-xs font-bold text-secondary flex items-center gap-1" data-id="${b.id}"><span class="material-symbols-outlined text-[14px]">delete</span>Delete</button>
+        </div>
+      `;
+      list.appendChild(row);
+    });
+
+    list.querySelectorAll('.edit-banner-btn').forEach(btn => btn.addEventListener('click', () => startEditBanner(parseInt(btn.dataset.id))));
+    list.querySelectorAll('.delete-banner-btn').forEach(btn => btn.addEventListener('click', async () => {
+      if (confirm('Delete this banner slide?')) {
+        const { error } = await sb.from('banners').delete().eq('id', parseInt(btn.dataset.id));
+        if (error) { alert('Delete failed: ' + error.message); return; }
+        await loadBanners();
+      }
+    }));
+    list.querySelectorAll('.move-up-btn').forEach(btn => btn.addEventListener('click', async () => {
+      const idx = banners.findIndex(b => b.id === parseInt(btn.dataset.id));
+      if (idx > 0) {
+        [banners[idx-1], banners[idx]] = [banners[idx], banners[idx-1]];
+        await persistBannerOrder();
+      }
+    }));
+    list.querySelectorAll('.move-down-btn').forEach(btn => btn.addEventListener('click', async () => {
+      const idx = banners.findIndex(b => b.id === parseInt(btn.dataset.id));
+      if (idx < banners.length - 1) {
+        [banners[idx+1], banners[idx]] = [banners[idx], banners[idx+1]];
+        await persistBannerOrder();
+      }
+    }));
+  }
+
+  async function persistBannerOrder() {
+    renderBanners(); // optimistic UI update
+    const updates = banners.map((b, i) => sb.from('banners').update({ sort_order: i }).eq('id', b.id));
+    await Promise.all(updates);
+    await loadBanners();
+  }
+
+  function startEditBanner(id) {
+    const b = banners.find(x => x.id === id);
+    if (!b) return;
+    editingBannerId = id;
+    document.getElementById('bImage').value = (b.image || '').includes('supabase.co') ? '' : (b.image || '');
+    document.getElementById('bEyebrow').value = b.eyebrow;
+    document.getElementById('bHeadline').value = b.headline;
+    document.getElementById('bCta').value = b.cta;
+    bannerImageData = (b.image || '').includes('supabase.co') ? b.image : null;
+    updateBannerPreview(b.image);
+    document.getElementById('bannerFormTitle').textContent = 'Edit Banner';
+    document.getElementById('bannerSubmitBtn').textContent = 'Save Changes';
+    document.getElementById('bannerCancelBtn').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function resetBannerForm() {
+    editingBannerId = null;
+    document.getElementById('bannerForm').reset();
+    document.getElementById('bannerFormTitle').textContent = 'Add New Banner';
+    document.getElementById('bannerSubmitBtn').textContent = 'Add Banner';
+    document.getElementById('bannerCancelBtn').classList.add('hidden');
+    bannerImageData = null;
+    updateBannerPreview('');
+  }
+
+  document.getElementById('bannerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!bannerImageData && !document.getElementById('bImage').value.trim()) {
+      alert('Please upload an image or paste an image URL for this banner.');
+      return;
+    }
+    const submitBtn = document.getElementById('bannerSubmitBtn');
+    const originalLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+
+    try {
+      const data = {
+        image: bannerImageData || document.getElementById('bImage').value.trim(),
+        eyebrow: document.getElementById('bEyebrow').value.trim(),
+        headline: document.getElementById('bHeadline').value.trim(),
+        cta: document.getElementById('bCta').value.trim(),
+        sortOrder: editingBannerId ? banners.find(b => b.id === editingBannerId).sortOrder : banners.length
+      };
+
+      let error;
+      if (editingBannerId) {
+        ({ error } = await sb.from('banners').update(toDbBanner(data)).eq('id', editingBannerId));
+      } else {
+        ({ error } = await sb.from('banners').insert(toDbBanner(data)));
+      }
+
+      if (error) { alert('Save failed: ' + error.message + (error.hint ? '\n\nHint: ' + error.hint : '')); return; }
+      resetBannerForm();
+      await loadBanners();
+    } catch (err) {
+      console.error(err);
+      alert('Something went wrong saving this banner: ' + (err.message || err));
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+    }
+  });
+
+  document.getElementById('bannerCancelBtn').addEventListener('click', resetBannerForm);
+
+  // ---------------- Image upload helpers ----------------
+  async function uploadImageToStorage(file) {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+    const { error } = await sb.storage.from(IMAGE_BUCKET).upload(fileName, file);
+    if (error) { alert('Image upload failed: ' + error.message); return null; }
+    const { data } = sb.storage.from(IMAGE_BUCKET).getPublicUrl(fileName);
+    return data.publicUrl;
+  }
+
+  function updateHeroPreview(src) {
+    const img = document.getElementById('heroPreviewImg');
+    const icon = document.querySelector('#heroPreviewWrap .material-symbols-outlined');
+    if (src) {
+      img.src = src;
+      img.classList.remove('hidden');
+      icon.classList.add('hidden');
+    } else {
+      img.classList.add('hidden');
+      icon.classList.remove('hidden');
+    }
+  }
+
+  function updateBannerPreview(src) {
+    const img = document.getElementById('bannerPreviewImg');
+    const icon = document.querySelector('#bannerPreviewWrap .material-symbols-outlined');
+    if (src) {
+      img.src = src;
+      img.classList.remove('hidden');
+      icon.classList.add('hidden');
+    } else {
+      img.classList.add('hidden');
+      icon.classList.remove('hidden');
+    }
+  }
+
+  function renderGalleryPreview() {
+    const row = document.getElementById('galleryPreviewRow');
+    row.innerHTML = '';
+    for (let i = 0; i < 4; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'aspect-square rounded-lg overflow-hidden bg-surface-container-high border border-outline-variant/30 flex items-center justify-center relative';
+      if (galleryImagesData[i]) {
+        slot.innerHTML = `
+          <img src="${galleryImagesData[i]}" class="w-full h-full object-cover" alt="Gallery ${i+1}">
+          <button type="button" class="remove-gallery-btn absolute top-0.5 right-0.5 bg-black/60 text-white rounded-full w-5 h-5 flex items-center justify-center" data-idx="${i}">
+            <span class="material-symbols-outlined text-[12px]">close</span>
+          </button>
+        `;
+      } else {
+        slot.innerHTML = `<span class="material-symbols-outlined text-outline text-[18px]">add_photo_alternate</span>`;
+      }
+      row.appendChild(slot);
+    }
+    row.querySelectorAll('.remove-gallery-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        galleryImagesData.splice(parseInt(btn.dataset.idx), 1);
+        renderGalleryPreview();
+      });
+    });
+  }
+
+  document.getElementById('pImageFile').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    updateHeroPreview(''); // clear while uploading
+    document.querySelector('#heroPreviewWrap .material-symbols-outlined').textContent = 'progress_activity';
+    const url = await uploadImageToStorage(file);
+    document.querySelector('#heroPreviewWrap .material-symbols-outlined').textContent = 'image';
+    if (!url) return;
+    heroImageData = url;
+    document.getElementById('pImage').value = '';
+    updateHeroPreview(heroImageData);
+  });
+
+  document.getElementById('pImage').addEventListener('input', (e) => {
+    if (e.target.value.trim()) {
+      heroImageData = null;
+      updateHeroPreview(e.target.value.trim());
+    } else if (!heroImageData) {
+      updateHeroPreview('');
+    }
+  });
+
+  document.getElementById('pGalleryFiles').addEventListener('change', async (e) => {
+    const files = Array.from(e.target.files).slice(0, 4 - galleryImagesData.length);
+    for (const file of files) {
+      const url = await uploadImageToStorage(file);
+      if (url && galleryImagesData.length < 4) galleryImagesData.push(url);
+    }
+    renderGalleryPreview();
+    e.target.value = '';
+  });
+
+  document.getElementById('bImageFile').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    updateBannerPreview('');
+    document.querySelector('#bannerPreviewWrap .material-symbols-outlined').textContent = 'progress_activity';
+    const url = await uploadImageToStorage(file);
+    document.querySelector('#bannerPreviewWrap .material-symbols-outlined').textContent = 'view_carousel';
+    if (!url) return;
+    bannerImageData = url;
+    document.getElementById('bImage').value = '';
+    updateBannerPreview(bannerImageData);
+  });
+
+  document.getElementById('bImage').addEventListener('input', (e) => {
+    if (e.target.value.trim()) {
+      bannerImageData = null;
+      updateBannerPreview(e.target.value.trim());
+    } else if (!bannerImageData) {
+      updateBannerPreview('');
+    }
+  });
+
+  // ---------------- Discount <-> Price auto-calc ----------------
+  function recalcPriceFromDiscount() {
+    if (isComputingPrice) return;
+    const orig = parseFloat(document.getElementById('pOriginalPrice').value);
+    const disc = parseFloat(document.getElementById('pDiscount').value);
+    if (orig > 0 && disc >= 0) {
+      isComputingPrice = true;
+      document.getElementById('pPrice').value = Math.round(orig * (1 - disc / 100));
+      isComputingPrice = false;
+    }
+  }
+  function recalcDiscountFromPrice() {
+    if (isComputingPrice) return;
+    const orig = parseFloat(document.getElementById('pOriginalPrice').value);
+    const price = parseFloat(document.getElementById('pPrice').value);
+    if (orig > 0 && price >= 0 && price <= orig) {
+      isComputingPrice = true;
+      document.getElementById('pDiscount').value = Math.round((1 - price / orig) * 100);
+      isComputingPrice = false;
+    }
+  }
+  document.getElementById('pOriginalPrice').addEventListener('input', recalcPriceFromDiscount);
+  document.getElementById('pDiscount').addEventListener('input', recalcPriceFromDiscount);
+  document.getElementById('pPrice').addEventListener('input', recalcDiscountFromPrice);
+
+  // ---------------- Tabs ----------------
+  document.querySelectorAll('.admin-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-posters').classList.toggle('hidden', tab.dataset.tab !== 'posters');
+      document.getElementById('panel-banners').classList.toggle('hidden', tab.dataset.tab !== 'banners');
+      document.getElementById('panel-orders').classList.toggle('hidden', tab.dataset.tab !== 'orders');
+      if (tab.dataset.tab === 'orders') loadOrders();
+    });
+  });
+
+  // ---------------- Orders ----------------
+  const ORDER_STATUSES = ['pending', 'confirmed', 'printing', 'dispatched', 'delivered', 'cancelled'];
+  let orders = [];
+
+  async function loadOrders() {
+    const list = document.getElementById('ordersList');
+    list.innerHTML = '<p class="text-center text-on-surface-variant py-10">Loading orders...</p>';
+    const { data, error } = await sb.from('orders').select('*, order_items(*)').order('created_at', { ascending: false });
+    if (error) {
+      list.innerHTML = `<p class="text-center text-on-surface-variant py-10">Supabase error: ${error.message}</p>`;
+      return;
+    }
+    orders = data || [];
+    renderOrders(document.getElementById('orderStatusFilter').value);
+  }
+
+  function renderOrders(statusFilter) {
+    const list = document.getElementById('ordersList');
+    const filtered = statusFilter ? orders.filter(o => o.status === statusFilter) : orders;
+
+    if (filtered.length === 0) {
+      list.innerHTML = '<p class="text-center text-on-surface-variant py-10">No orders yet.</p>';
+      return;
+    }
+
+    list.innerHTML = filtered.map(order => `
+      <div class="border border-outline-variant/30 rounded-xl p-5 bg-surface-container-lowest">
+        <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+          <div>
+            <p class="font-bold text-primary">Order #KE-${order.id}</p>
+            <p class="text-sm text-on-surface-variant">${order.customer_name} &middot; ${order.phone}</p>
+            <p class="text-xs text-on-surface-variant">${order.address_line}, ${order.city}, ${order.state} - ${order.pincode}</p>
+            <p class="text-xs text-on-surface-variant mt-1">${new Date(order.created_at).toLocaleString('en-IN')}</p>
+          </div>
+          <div class="text-right">
+            <p class="font-bold text-lg text-secondary">₹${order.total}</p>
+            <p class="text-xs text-on-surface-variant uppercase">${order.payment_method}</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2 mb-4">
+          ${(order.order_items || []).map(item => `
+            <span class="text-xs bg-surface-container-high px-3 py-1.5 rounded-full">${item.quantity}&times; ${item.title_snapshot} (${item.format}${item.size_label ? ', ' + item.size_label : ''})</span>
+          `).join('')}
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="field-label mb-0">Status:</label>
+          <select class="order-status-select max-w-[180px]" data-id="${order.id}">
+            ${ORDER_STATUSES.map(s => `<option value="${s}" ${s === order.status ? 'selected' : ''}>${s[0].toUpperCase() + s.slice(1)}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.order-status-select').forEach(sel => {
+      sel.addEventListener('change', async () => {
+        const { error } = await sb.from('orders').update({ status: sel.value }).eq('id', parseInt(sel.dataset.id));
+        if (error) alert('Could not update status: ' + error.message);
+      });
+    });
+  }
+
+  document.getElementById('orderStatusFilter').addEventListener('change', (e) => renderOrders(e.target.value));
+
+  // ---------------- Init ----------------
+  loadPosters();
+  loadBanners();
+  renderGalleryPreview();
+  updateBannerPreview('');
+</script>
+</body></html>

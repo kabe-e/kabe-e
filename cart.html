@@ -1,0 +1,201 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>KABE-E | Your Cart</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff", "primary-container": "#1a2a44", "tertiary": "#211200",
+                        "surface-bright": "#fbf9f4", "on-error-container": "#93000a", "on-secondary-container": "#fffbff",
+                        "outline-variant": "#c5c6ce", "error": "#ba1a1a", "on-surface-variant": "#44474d",
+                        "on-error": "#ffffff", "surface-container-highest": "#e4e2de", "on-surface": "#1b1c19",
+                        "on-tertiary": "#ffffff", "primary": "#04152e", "surface-dim": "#dbdad5",
+                        "error-container": "#ffdad6", "outline": "#75777e", "background": "#fbf9f4",
+                        "secondary-container": "#df2842", "surface-variant": "#e4e2de", "surface-container-low": "#f5f3ee",
+                        "surface-container-high": "#eae8e3", "on-primary-container": "#8291b1", "surface-container": "#f0eee9",
+                        "surface-container-lowest": "#ffffff", "on-primary": "#ffffff", "surface": "#fbf9f4",
+                        "on-background": "#1b1c19", "inverse-surface": "#30312e", "on-tertiary-container": "#a88c68",
+                        "tertiary-container": "#39260a", "combo-gold": "#b08d2f", "success": "#2f6b3a", "secondary": "#ba002c"
+                    },
+                    "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                    "spacing": { "margin-mobile": "20px", "unit": "8px", "gutter": "24px", "margin-desktop": "64px", "container-max": "1000px" },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Playfair Display"], "body-lg": ["Hanken Grotesk"], "label-sm": ["Hanken Grotesk"],
+                        "display-lg": ["Playfair Display"], "body-md": ["Hanken Grotesk"], "headline-md": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .washi-texture { background-color: #fbf9f4; background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png"); }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md washi-texture min-h-screen">
+
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-white/10 shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4">
+<a class="font-headline-md text-headline-md font-extrabold text-primary tracking-tight" href="kabe-e-homepage.html">KABE-E</a>
+<a href="kabe-e-homepage.html" class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span> Continue Shopping
+</a>
+</header>
+
+<main class="max-w-[1000px] mx-auto px-margin-mobile md:px-margin-desktop py-10">
+<h1 class="font-headline-md text-display-lg-mobile md:text-display-lg text-primary mb-10">Your Cart</h1>
+
+<div id="cartWrap" class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+  <div class="lg:col-span-2 flex flex-col gap-4" id="cartList">
+    <p class="text-on-surface-variant py-10 text-center">Loading your cart...</p>
+  </div>
+
+  <div class="lg:col-span-1">
+    <div class="border border-outline-variant/30 rounded-2xl p-6 bg-surface-container-lowest sticky top-24">
+      <h3 class="font-headline-md text-headline-md font-bold text-primary mb-6">Order Summary</h3>
+      <div class="flex justify-between text-sm mb-2">
+        <span class="text-on-surface-variant">Subtotal</span>
+        <span id="summarySubtotal" class="font-bold">₹0</span>
+      </div>
+      <div class="flex justify-between text-sm mb-4">
+        <span class="text-on-surface-variant">Shipping</span>
+        <span class="font-bold text-success">Free</span>
+      </div>
+      <div class="h-px bg-outline-variant/30 my-4"></div>
+      <div class="flex justify-between text-lg mb-8">
+        <span class="font-bold text-primary">Total</span>
+        <span id="summaryTotal" class="font-bold text-secondary">₹0</span>
+      </div>
+      <a id="checkoutBtn" href="checkout.html" class="w-full bg-primary text-on-primary font-bold py-4 rounded-full flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+        <span class="material-symbols-outlined">lock</span> Proceed to Checkout
+      </a>
+      <p class="text-xs text-on-surface-variant text-center mt-4">Cash on Delivery available. Free shipping on all orders.</p>
+    </div>
+  </div>
+</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = 'https://ziqmvzxpvzuratzyreoh.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_QvMLK7aKmXU07TWJwS3DAA_fcV1S22R';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const FALLBACK_IMG = 'data:image/svg+xml;charset=UTF-8,%3Csvg width="200" height="260" xmlns="http://www.w3.org/2000/svg"%3E%3Crect width="100%25" height="100%25" fill="%23e4e2de"/%3E%3C/svg%3E';
+
+  async function ensureSession() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) return session.user.id;
+    const { data, error } = await sb.auth.signInAnonymously();
+    if (error) { console.error('Anonymous sign-in failed', error); return null; }
+    return data.user.id;
+  }
+
+  let userId = null;
+  let items = [];
+
+  function money(n) { return '₹' + n.toLocaleString('en-IN'); }
+
+  function renderCart() {
+    const list = document.getElementById('cartList');
+    if (items.length === 0) {
+      list.innerHTML = `
+        <div class="text-center py-20 border border-outline-variant/30 rounded-2xl bg-surface-container-lowest">
+          <span class="material-symbols-outlined text-[48px] text-outline-variant mb-4 block">shopping_cart</span>
+          <p class="text-on-surface-variant mb-6">Your cart is empty.</p>
+          <a href="kabe-e-homepage.html" class="inline-block bg-primary text-on-primary font-bold px-8 py-3 rounded-full">Start Shopping</a>
+        </div>`;
+      document.getElementById('checkoutBtn').classList.add('pointer-events-none', 'opacity-40');
+      updateTotals();
+      return;
+    }
+    document.getElementById('checkoutBtn').classList.remove('pointer-events-none', 'opacity-40');
+
+    list.innerHTML = items.map(item => `
+      <div class="flex gap-4 p-4 border border-outline-variant/30 rounded-xl bg-surface-container-lowest" data-id="${item.id}">
+        <div class="w-24 h-28 rounded-lg overflow-hidden shrink-0 bg-surface-container-high">
+          <img src="${item.image_snapshot || FALLBACK_IMG}" onerror="this.src='${FALLBACK_IMG}'" class="w-full h-full object-cover" alt="${item.title_snapshot}">
+        </div>
+        <div class="flex-1 min-w-0 flex flex-col justify-between">
+          <div>
+            <h4 class="font-bold text-primary truncate">${item.title_snapshot}</h4>
+            <p class="text-on-surface-variant text-sm capitalize">${item.format}${item.size_label ? ' · ' + item.size_label : ''}</p>
+          </div>
+          <div class="flex items-center justify-between mt-2">
+            <div class="flex items-center gap-3 border border-outline-variant rounded-full px-3 py-1">
+              <button class="qty-minus text-on-surface-variant hover:text-primary" data-id="${item.id}">
+                <span class="material-symbols-outlined text-[18px]">remove</span>
+              </button>
+              <span class="font-bold text-sm w-4 text-center">${item.quantity}</span>
+              <button class="qty-plus text-on-surface-variant hover:text-primary" data-id="${item.id}">
+                <span class="material-symbols-outlined text-[18px]">add</span>
+              </button>
+            </div>
+            <span class="font-bold text-secondary">${money(item.unit_price * item.quantity)}</span>
+          </div>
+        </div>
+        <button class="remove-item text-outline-variant hover:text-secondary self-start" data-id="${item.id}">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+    `).join('');
+
+    list.querySelectorAll('.qty-plus').forEach(btn => btn.addEventListener('click', () => changeQty(parseInt(btn.dataset.id), 1)));
+    list.querySelectorAll('.qty-minus').forEach(btn => btn.addEventListener('click', () => changeQty(parseInt(btn.dataset.id), -1)));
+    list.querySelectorAll('.remove-item').forEach(btn => btn.addEventListener('click', () => removeItem(parseInt(btn.dataset.id))));
+
+    updateTotals();
+  }
+
+  function updateTotals() {
+    const subtotal = items.reduce((sum, i) => sum + i.unit_price * i.quantity, 0);
+    document.getElementById('summarySubtotal').textContent = money(subtotal);
+    document.getElementById('summaryTotal').textContent = money(subtotal);
+  }
+
+  async function loadCart() {
+    userId = await ensureSession();
+    if (!userId) {
+      document.getElementById('cartList').innerHTML = '<p class="text-center text-on-surface-variant py-10">Could not connect to Supabase.</p>';
+      return;
+    }
+    const { data, error } = await sb.from('cart_items').select('*').eq('user_id', userId).order('created_at', { ascending: false });
+    if (error) {
+      document.getElementById('cartList').innerHTML = `<p class="text-center text-on-surface-variant py-10">Supabase error: ${error.message}</p>`;
+      return;
+    }
+    items = data || [];
+    renderCart();
+  }
+
+  async function changeQty(id, delta) {
+    const item = items.find(i => i.id === id);
+    if (!item) return;
+    const newQty = item.quantity + delta;
+    if (newQty < 1) return removeItem(id);
+    await sb.from('cart_items').update({ quantity: newQty }).eq('id', id);
+    item.quantity = newQty;
+    renderCart();
+  }
+
+  async function removeItem(id) {
+    await sb.from('cart_items').delete().eq('id', id);
+    items = items.filter(i => i.id !== id);
+    renderCart();
+  }
+
+  loadCart();
+</script>
+</body></html>
