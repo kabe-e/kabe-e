@@ -1,0 +1,132 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>KABE-E | Your Wishlist</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff", "primary-container": "#1a2a44", "tertiary": "#211200",
+                        "surface-bright": "#fbf9f4", "on-error-container": "#93000a", "on-secondary-container": "#fffbff",
+                        "outline-variant": "#c5c6ce", "error": "#ba1a1a", "on-surface-variant": "#44474d",
+                        "on-error": "#ffffff", "surface-container-highest": "#e4e2de", "on-surface": "#1b1c19",
+                        "on-tertiary": "#ffffff", "primary": "#04152e", "surface-dim": "#dbdad5",
+                        "error-container": "#ffdad6", "outline": "#75777e", "background": "#fbf9f4",
+                        "secondary-container": "#df2842", "surface-variant": "#e4e2de", "surface-container-low": "#f5f3ee",
+                        "surface-container-high": "#eae8e3", "on-primary-container": "#8291b1", "surface-container": "#f0eee9",
+                        "surface-container-lowest": "#ffffff", "on-primary": "#ffffff", "surface": "#fbf9f4",
+                        "on-background": "#1b1c19", "inverse-surface": "#30312e", "on-tertiary-container": "#a88c68",
+                        "tertiary-container": "#39260a", "combo-gold": "#b08d2f", "success": "#2f6b3a", "secondary": "#ba002c"
+                    },
+                    "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                    "spacing": { "margin-mobile": "20px", "unit": "8px", "gutter": "24px", "margin-desktop": "64px", "container-max": "1200px" },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Playfair Display"], "body-lg": ["Hanken Grotesk"], "label-sm": ["Hanken Grotesk"],
+                        "display-lg": ["Playfair Display"], "body-md": ["Hanken Grotesk"], "headline-md": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .washi-texture { background-color: #fbf9f4; background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png"); }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md washi-texture min-h-screen">
+
+<header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-white/10 shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4">
+<a class="font-headline-md text-headline-md font-extrabold text-primary tracking-tight" href="index.html">KABE-E</a>
+<a href="index.html" class="text-on-surface-variant hover:text-primary transition-colors font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span> Continue Shopping
+</a>
+</header>
+
+<main class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-10">
+<h1 class="font-headline-md text-display-lg-mobile md:text-display-lg text-primary mb-10">Your Wishlist</h1>
+<div id="wishlistGrid" class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<p class="col-span-4 text-center text-on-surface-variant py-16">Loading your wishlist...</p>
+</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = 'https://ziqmvzxpvzuratzyreoh.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_QvMLK7aKmXU07TWJwS3DAA_fcV1S22R';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const FALLBACK_IMG = 'data:image/svg+xml;charset=UTF-8,%3Csvg width="300" height="400" xmlns="http://www.w3.org/2000/svg"%3E%3Crect width="100%25" height="100%25" fill="%23e4e2de"/%3E%3C/svg%3E';
+
+  async function ensureSession() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) return session.user.id;
+    const { data, error } = await sb.auth.signInAnonymously();
+    if (error) { console.error('Anonymous sign-in failed', error); return null; }
+    return data.user.id;
+  }
+
+  async function loadWishlist() {
+    const grid = document.getElementById('wishlistGrid');
+    const userId = await ensureSession();
+    if (!userId) {
+      grid.innerHTML = '<p class="col-span-4 text-center text-on-surface-variant py-16">Could not connect to Supabase.</p>';
+      return;
+    }
+    const { data, error } = await sb.from('wishlist_items').select('*, posters(*)').eq('user_id', userId).order('created_at', { ascending: false });
+
+    if (error) {
+      grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">Supabase error: ${error.message}</p>`;
+      return;
+    }
+    if (!data || data.length === 0) {
+      grid.innerHTML = `
+        <div class="col-span-2 md:col-span-4 text-center py-20 border border-outline-variant/30 rounded-2xl bg-surface-container-lowest">
+          <span class="material-symbols-outlined text-[48px] text-outline-variant mb-4 block">favorite</span>
+          <p class="text-on-surface-variant mb-6">Nothing saved yet. Tap the heart on any poster to add it here.</p>
+          <a href="index.html" class="inline-block bg-primary text-on-primary font-bold px-8 py-3 rounded-full">Browse Posters</a>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = data.filter(w => w.posters).map(w => {
+      const p = w.posters;
+      return `
+        <div class="relative group block">
+          <a href="poster-detail.html?id=${p.id}">
+            <div class="relative aspect-[3/4] bg-surface-container-highest rounded-xl overflow-hidden mb-4 border border-outline-variant/30 transition-shadow hover:shadow-lg">
+              <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="${p.image || FALLBACK_IMG}" onerror="this.src='${FALLBACK_IMG}'" alt="${p.title}">
+            </div>
+            <h3 class="font-body-md text-primary font-bold">${p.title}</h3>
+            <span class="text-secondary font-bold">₹${p.price}</span>
+          </a>
+          <button class="remove-wish absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-secondary" data-poster-id="${p.id}">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings:'FILL' 1;">favorite</span>
+          </button>
+        </div>
+      `;
+    }).join('');
+
+    grid.querySelectorAll('.remove-wish').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await sb.from('wishlist_items').delete().eq('user_id', userId).eq('poster_id', parseInt(btn.dataset.posterId));
+        loadWishlist();
+      });
+    });
+  }
+
+  loadWishlist();
+</script>
+</body></html>
