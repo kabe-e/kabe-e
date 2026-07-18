@@ -221,12 +221,13 @@ hello@kabe-e.com
     `;
   }
 
-  async function loadShop(formatFilter) {
+  async function loadShop(formatFilter, categoryFilter) {
     const grid = document.getElementById('shopGrid');
     grid.innerHTML = '<p class="col-span-4 text-center text-on-surface-variant py-16">Loading...</p>';
     try {
       let query = sb.from('posters').select('*').order('created_at', { ascending: false });
       if (formatFilter) query = query.contains('formats', [formatFilter]);
+      if (categoryFilter) query = query.eq('category', categoryFilter);
       const { data, error } = await query;
 
       if (error) {
@@ -234,7 +235,8 @@ hello@kabe-e.com
         return;
       }
       if (!data || data.length === 0) {
-        grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">Nothing here yet — add posters in the admin panel${formatFilter ? ` and tag them as "${formatFilter}"` : ''}.</p>`;
+        const missingLabel = categoryFilter || formatFilter;
+        grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">Nothing here yet — add posters in the admin panel${missingLabel ? ` and tag them as "${missingLabel}"` : ''}.</p>`;
         return;
       }
       grid.innerHTML = data.map(posterCardHTML).join('');
@@ -243,14 +245,15 @@ hello@kabe-e.com
     }
   }
 
-  function applyFormat(formatFilter) {
-    document.getElementById('pageTitle').textContent = labels[formatFilter] ?? 'All Posters';
-    document.getElementById('pageSubtitle').textContent = subtitles[formatFilter] ?? '';
-    document.getElementById('crumbLabel').textContent = labels[formatFilter] ?? 'Shop';
+  function applyFormat(formatFilter, categoryFilter) {
+    const title = categoryFilter || (labels[formatFilter] ?? 'All Posters');
+    document.getElementById('pageTitle').textContent = title;
+    document.getElementById('pageSubtitle').textContent = categoryFilter ? `Browse the ${categoryFilter} collection.` : (subtitles[formatFilter] ?? '');
+    document.getElementById('crumbLabel').textContent = title;
     document.querySelectorAll('.filter-chip').forEach(chip => {
-      chip.classList.toggle('active', chip.dataset.format === formatFilter);
+      chip.classList.toggle('active', chip.dataset.format === formatFilter && !categoryFilter);
     });
-    loadShop(formatFilter);
+    loadShop(formatFilter, categoryFilter);
   }
 
   document.querySelectorAll('.filter-chip').forEach(chip => {
@@ -258,8 +261,9 @@ hello@kabe-e.com
       const url = new URL(window.location.href);
       if (chip.dataset.format) url.searchParams.set('format', chip.dataset.format);
       else url.searchParams.delete('format');
+      url.searchParams.delete('category');
       window.history.replaceState({}, '', url);
-      applyFormat(chip.dataset.format);
+      applyFormat(chip.dataset.format, '');
     });
   });
 
@@ -284,7 +288,7 @@ hello@kabe-e.com
   }
   refreshCartBadge();
 
-  const initialFormat = new URLSearchParams(window.location.search).get('format') || '';
-  applyFormat(initialFormat);
+  const urlParams = new URLSearchParams(window.location.search);
+  applyFormat(urlParams.get('format') || '', urlParams.get('category') || '');
 </script>
 </body></html>
