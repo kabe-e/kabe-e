@@ -1,7 +1,7 @@
 <!DOCTYPE html><html class="light" lang="en"><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>KABE-E | Shop</title>
+<title>KABE-E | Poster Detail</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
@@ -42,6 +42,8 @@
                         "inverse-surface": "#30312e",
                         "on-tertiary-container": "#a88c68",
                         "tertiary-container": "#39260a",
+                        "combo-gold": "#b08d2f",
+                        "success": "#2f6b3a",
                         "secondary": "#ba002c"
                     },
                     "borderRadius": {
@@ -57,10 +59,10 @@
                         "body-md": ["Hanken Grotesk"], "headline-md": ["Playfair Display"]
                     },
                     "fontSize": {
-                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
                         "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
                         "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
                         "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
                         "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
                     }
@@ -73,14 +75,29 @@
         .washi-texture { background-color: #fbf9f4; background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png"); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .filter-chip.active { background: #04152e; color: #ffffff; }
+        .format-tab.active { background: #04152e; color: #ffffff; }
+        .size-opt.active { border-color: #04152e; background: rgba(4,21,46,0.06); }
+        .thumb { opacity: .5; }
+        .thumb.active, .thumb:hover { opacity: 1; }
+        .shimmer-gold { background: linear-gradient(90deg, #b08d2f 0%, #f3dfa0 50%, #b08d2f 100%); background-size: 200% auto; animation: shimmer 3s linear infinite; }
+        @keyframes shimmer { to { background-position: 200% center; } }
     </style>
 </head>
 <body class="bg-background text-on-surface font-body-md washi-texture min-h-screen">
-<!-- Top Navigation Bar -->
+
 <header class="bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b border-white/10 shadow-sm flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4">
 <div class="flex items-center gap-8">
 <a class="font-headline-md text-headline-md font-extrabold text-primary tracking-tight" href="index.html">KABE-E</a>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm" href="shop.html?format=poster">Poster</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm" href="shop.html?format=polaroid">Polaroid</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm" href="shop.html?format=sticker">Sticker</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm" href="shop.html?format=wallpaper">Wallpaper</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm" href="shop.html?category=Sketching%2FDrawing">Sketching</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-label-sm text-label-sm flex items-center gap-1" href="custom-wallpaper.html">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span> Custom Poster
+</a>
+</nav>
 </div>
 <div class="flex items-center gap-4">
 <a href="wishlist.html" class="p-2 hover:bg-surface-bright/20 rounded-lg transition-all scale-95 active:scale-90 inline-block">
@@ -96,38 +113,133 @@
 </div>
 </header>
 
-<!-- Breadcrumb -->
 <div class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop pt-6 text-sm text-on-surface-variant flex items-center gap-2">
 <a class="hover:text-primary transition-colors" href="index.html">Home</a>
 <span class="material-symbols-outlined text-[16px]">chevron_right</span>
-<span id="crumbLabel" class="text-primary font-medium">Shop</span>
+<span id="crumbCollection">Collection</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span id="crumbTitle" class="text-primary font-medium">Poster</span>
 </div>
 
-<main class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-8">
-<h1 id="pageTitle" class="font-headline-md text-display-lg-mobile md:text-display-lg text-primary mb-3">All Posters</h1>
-<p id="pageSubtitle" class="text-on-surface-variant font-body-lg mb-8">Every design, all in one place.</p>
+<main class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop py-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-<!-- Format filter chips -->
-<div class="flex gap-3 mb-10 overflow-x-auto no-scrollbar pb-1" id="filterChips">
-<button data-format="" class="filter-chip active font-label-sm text-label-sm px-5 py-2.5 rounded-full border border-outline-variant whitespace-nowrap transition-all">All</button>
-<button data-format="poster" class="filter-chip font-label-sm text-label-sm px-5 py-2.5 rounded-full border border-outline-variant whitespace-nowrap transition-all">Posters</button>
-<button data-format="sticker" class="filter-chip font-label-sm text-label-sm px-5 py-2.5 rounded-full border border-outline-variant whitespace-nowrap transition-all">Stickers</button>
-<button data-format="polaroid" class="filter-chip font-label-sm text-label-sm px-5 py-2.5 rounded-full border border-outline-variant whitespace-nowrap transition-all">Polaroids</button>
-<button data-format="wallpaper" class="filter-chip font-label-sm text-label-sm px-5 py-2.5 rounded-full border border-outline-variant whitespace-nowrap transition-all">Wallpapers</button>
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="relative group rounded-xl overflow-hidden border border-outline-variant/30 aspect-[3/4] bg-surface-container-highest">
+<img id="mainImage" class="w-full h-full object-cover" src="" alt="Poster preview">
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6">
+<span id="badgeTag" class="font-label-sm text-label-sm px-3 py-1 rounded-full uppercase tracking-widest bg-tertiary-container text-on-tertiary-container">Kabe-E</span>
+</div>
+</div>
+<div id="thumbStrip" class="flex gap-4 overflow-x-auto pb-2 no-scrollbar"></div>
 </div>
 
-<div id="shopGrid" class="grid grid-cols-2 md:grid-cols-4 gap-gutter min-h-[300px]">
-<!-- Poster cards injected here by JS from Supabase -->
+<div class="lg:col-span-5 flex flex-col gap-8">
+<section>
+<h1 id="posterTitle" class="font-headline-md text-display-lg-mobile md:text-display-lg text-primary mb-2">Poster Title</h1>
+<p id="posterCollection" class="font-label-sm text-label-sm text-secondary tracking-[0.15em] mb-4 uppercase">Collection</p>
+<div class="flex items-baseline gap-4">
+<span id="posterPrice" class="font-bold text-2xl text-secondary">₹0</span>
+<span id="posterOriginalPrice" class="text-on-surface-variant line-through"></span>
+<span id="posterDiscount" class="text-success font-bold text-sm"></span>
 </div>
+<p class="mt-4 text-on-surface-variant italic opacity-80 text-sm">
+                    *This is a fan-created artwork and is not an officially licensed product of the original franchise.
+                </p>
+</section>
+
+<div class="h-px bg-outline-variant/30"></div>
+
+<section class="flex flex-col gap-4">
+<label class="font-label-sm text-label-sm text-on-surface-variant">CHOOSE FORMAT</label>
+<div class="flex gap-2 p-1 rounded-full w-max bg-surface-container-high flex-wrap" id="formatTabs">
+<button data-format="poster" class="format-tab active flex items-center gap-1.5 font-label-sm text-label-sm px-4 py-2.5 rounded-full transition-all text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">image</span> Poster
+</button>
+<button data-format="polaroid" class="format-tab flex items-center gap-1.5 font-label-sm text-label-sm px-4 py-2.5 rounded-full transition-all text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">photo_camera</span> Polaroid
+</button>
+<button data-format="sticker" class="format-tab flex items-center gap-1.5 font-label-sm text-label-sm px-4 py-2.5 rounded-full transition-all text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">sticky_note_2</span> Sticker
+</button>
+<button data-format="wallpaper" class="format-tab flex items-center gap-1.5 font-label-sm text-label-sm px-4 py-2.5 rounded-full transition-all text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">wallpaper</span> Wallpaper
+</button>
+</div>
+</section>
+
+<section class="flex flex-col gap-4">
+<label id="sizeLabel" class="font-label-sm text-label-sm text-on-surface-variant">SELECT SIZE</label>
+<div id="sizeRow" class="grid grid-cols-3 gap-3"></div>
+</section>
+
+<section class="rounded-2xl p-6 relative overflow-hidden border border-outline-variant/30 bg-surface-container-lowest">
+<div class="absolute top-0 right-0 shimmer-gold px-4 py-1 rounded-bl-xl font-label-sm text-[10px]" style="color:#3c2e00;">PAISA VASOOL</div>
+<h3 class="font-headline-md text-headline-md font-bold mb-4" style="color:#b08d2f;">Combo Savings</h3>
+<div class="space-y-3">
+<div class="flex justify-between items-center p-2 rounded-lg transition-colors cursor-pointer hover:bg-surface-container-high">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined" style="color:#b08d2f;">auto_awesome_motion</span>
+<span class="text-sm">Buy 7 Posters</span>
+</div>
+<span class="font-bold text-primary">₹2,499 <span class="text-xs text-on-surface-variant line-through">₹3,493</span></span>
+</div>
+<div class="flex justify-between items-center p-2 rounded-lg transition-colors cursor-pointer border-2" style="border-color:rgba(176,141,47,0.3); background:rgba(176,141,47,0.06);">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined" style="color:#b08d2f; font-variation-settings:'FILL' 1;">workspace_premium</span>
+<span class="text-sm">Buy 18 Posters</span>
+</div>
+<span class="font-bold" style="color:#b08d2f;">₹5,499 <span class="text-xs text-on-surface-variant line-through">₹8,982</span></span>
+</div>
+</div>
+</section>
+
+<div class="flex flex-col gap-4">
+<button id="primaryCta" class="bg-primary text-on-primary font-bold py-5 rounded-full transition-all flex items-center justify-center gap-2 group hover:opacity-90 active:scale-95">
+<span id="primaryCtaIcon" class="material-symbols-outlined group-hover:scale-110 transition-transform">shopping_cart</span>
+<span id="primaryCtaLabel">Add to Cart</span>
+</button>
+<button class="border-2 border-secondary text-secondary font-bold py-5 rounded-full transition-all flex items-center justify-center gap-2 group hover:bg-secondary/5">
+<span class="material-symbols-outlined group-hover:animate-pulse">bolt</span>
+                    Buy in Combo (Save ₹1,000+)
+                </button>
+</div>
+
+<div class="flex justify-around py-4 opacity-80">
+<div class="flex flex-col items-center gap-1 text-center">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+<span class="text-[10px] font-label-sm">Free Shipping</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-center">
+<span class="material-symbols-outlined text-primary">verified</span>
+<span class="text-[10px] font-label-sm">Premium 300GSM</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-center">
+<span class="material-symbols-outlined text-primary">replay_circle_filled</span>
+<span class="text-[10px] font-label-sm">Easy Exchange</span>
+</div>
+</div>
+</div>
+</div>
+
+<section class="mt-16 max-w-3xl">
+<h3 class="font-headline-md text-headline-md font-bold mb-3 text-primary">About this piece</h3>
+<p id="posterDescription" class="text-on-surface-variant leading-relaxed font-body-md"></p>
+</section>
+
+<section class="mt-20">
+<h3 class="font-headline-md text-headline-md font-bold mb-8 text-primary">You Might Also Like</h3>
+<div id="relatedGrid" class="grid grid-cols-2 md:grid-cols-4 gap-gutter"></div>
+</section>
 </main>
 
-<!-- Footer -->
 <footer class="bg-surface-container-lowest border-t border-outline-variant/30 w-full px-margin-mobile md:px-margin-desktop py-12 mt-16">
 <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-12">
 <div class="col-span-1 md:col-span-1">
 <a class="font-headline-md text-headline-md text-primary font-extrabold mb-6 block" href="index.html">KABE-E</a>
 <p class="text-on-surface-variant font-body-md pr-8">
-                    Elevating interiors with the beauty of "Ma" and the precision of modern design. Premium posters and art for the discerning eye.
+                    Elevating interiors with the beauty of "Ma" and the precision of modern design.
                 </p>
 </div>
 <div>
@@ -144,44 +256,28 @@
 <ul class="space-y-3">
 <li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Track Order</a></li>
 <li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">FAQ</a></li>
-<li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Shipping Policy</a></li>
-<li><a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md" href="#">Privacy Policy</a></li>
 </ul>
 </div>
 <div>
-<h4 class="font-label-sm text-label-sm text-primary uppercase font-bold mb-6">Follow Us</h4>
-<div class="flex gap-4">
-<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">share</span>
-</a>
-<a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">image</span>
-</a>
-</div>
-</div>
-</div>
-<div class="border-t border-outline-variant/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-<span class="text-on-surface-variant font-label-sm text-label-sm">© 2024 KABE-E. Paisa Vasool Posters. Inspired by Shibui.</span>
-<div class="flex items-center gap-4">
-<span class="material-symbols-outlined text-outline-variant">payments</span>
-<span class="material-symbols-outlined text-outline-variant">credit_card</span>
+<h4 class="font-label-sm text-label-sm text-primary uppercase font-bold mb-6">Contact</h4>
 <a class="flex items-center gap-2 text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm" href="mailto:hello@kabe-e.com">
-<span class="material-symbols-outlined text-[18px]">mail</span>
-hello@kabe-e.com
+<span class="material-symbols-outlined text-[18px]">mail</span> hello@kabe-e.com
 </a>
 </div>
+</div>
+<div class="border-t border-outline-variant/30 pt-8 text-center">
+<span class="text-on-surface-variant font-label-sm text-label-sm">© 2024 KABE-E. Paisa Vasool Posters.</span>
 </div>
 </footer>
 
-<!-- Mobile Navigation Shell -->
 <nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-2 md:hidden bg-surface/80 backdrop-blur-xl border-t border-white/10 shadow-lg">
 <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1.5 active:scale-95 transition-transform duration-200" href="index.html">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome_motion</span>
 <span class="font-label-sm text-label-sm">Shop</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant" href="index.html">
-<span class="material-symbols-outlined">add_a_photo</span>
-<span class="font-label-sm text-label-sm">Custom</span>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="cart.html">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
 </a>
 <a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
 <span class="material-symbols-outlined">person</span>
@@ -195,77 +291,6 @@ hello@kabe-e.com
   const SUPABASE_ANON_KEY = 'sb_publishable_QvMLK7aKmXU07TWJwS3DAA_fcV1S22R';
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const FALLBACK_IMG = 'data:image/svg+xml;charset=UTF-8,%3Csvg width="300" height="400" xmlns="http://www.w3.org/2000/svg"%3E%3Crect width="100%25" height="100%25" fill="%23e4e2de"/%3E%3Ctext x="50%25" y="50%25" font-family="sans-serif" font-size="16" fill="%2375777e" text-anchor="middle"%3ENo Image%3C/text%3E%3C/svg%3E';
-
-  const labels = { '': 'All Posters', poster: 'Posters', sticker: 'Stickers', polaroid: 'Polaroids', wallpaper: 'Wallpapers' };
-  const subtitles = {
-    '': 'Every design, all in one place.',
-    poster: 'Premium wall posters, printed and shipped.',
-    sticker: 'Die-cut vinyl, ready for laptops and bottles.',
-    polaroid: 'Retro mini-prints, perfect for gifting.',
-    wallpaper: 'Instant digital downloads for your phone or desktop.'
-  };
-
-  function posterCardHTML(p) {
-    return `
-      <a href="poster-detail.html?id=${p.id}" class="group cursor-pointer block">
-        <div class="relative aspect-[3/4] bg-surface-container-highest rounded-xl overflow-hidden mb-4 border border-outline-variant/30 transition-shadow hover:shadow-lg">
-          <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="${p.image || FALLBACK_IMG}" onerror="this.src='${FALLBACK_IMG}'" alt="${p.title}">
-          ${p.badge ? `<span class="absolute top-4 left-4 bg-primary text-on-primary text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide">${p.badge}</span>` : ''}
-        </div>
-        <h3 class="font-body-md text-primary font-bold">${p.title}</h3>
-        <div class="flex justify-between items-center mt-1">
-          <span class="text-on-surface-variant font-label-sm">${p.category || 'Posters'}</span>
-          <span class="text-secondary font-bold">₹${p.price}${p.original_price ? ` <span class="text-on-surface-variant text-xs line-through font-normal">₹${p.original_price}</span>` : ''}</span>
-        </div>
-      </a>
-    `;
-  }
-
-  async function loadShop(formatFilter, categoryFilter) {
-    const grid = document.getElementById('shopGrid');
-    grid.innerHTML = '<p class="col-span-4 text-center text-on-surface-variant py-16">Loading...</p>';
-    try {
-      let query = sb.from('posters').select('*').order('created_at', { ascending: false });
-      if (formatFilter) query = query.contains('formats', [formatFilter]);
-      if (categoryFilter) query = query.eq('category', categoryFilter);
-      const { data, error } = await query;
-
-      if (error) {
-        grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">Supabase error: ${error.message}</p>`;
-        return;
-      }
-      if (!data || data.length === 0) {
-        const missingLabel = categoryFilter || formatFilter;
-        grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">Nothing here yet — add posters in the admin panel${missingLabel ? ` and tag them as "${missingLabel}"` : ''}.</p>`;
-        return;
-      }
-      grid.innerHTML = data.map(posterCardHTML).join('');
-    } catch (err) {
-      grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">Connection error: ${err.message || err}</p>`;
-    }
-  }
-
-  function applyFormat(formatFilter, categoryFilter) {
-    const title = categoryFilter || (labels[formatFilter] ?? 'All Posters');
-    document.getElementById('pageTitle').textContent = title;
-    document.getElementById('pageSubtitle').textContent = categoryFilter ? `Browse the ${categoryFilter} collection.` : (subtitles[formatFilter] ?? '');
-    document.getElementById('crumbLabel').textContent = title;
-    document.querySelectorAll('.filter-chip').forEach(chip => {
-      chip.classList.toggle('active', chip.dataset.format === formatFilter && !categoryFilter);
-    });
-    loadShop(formatFilter, categoryFilter);
-  }
-
-  document.querySelectorAll('.filter-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const url = new URL(window.location.href);
-      if (chip.dataset.format) url.searchParams.set('format', chip.dataset.format);
-      else url.searchParams.delete('format');
-      url.searchParams.delete('category');
-      window.history.replaceState({}, '', url);
-      applyFormat(chip.dataset.format, '');
-    });
-  });
 
   async function ensureSession() {
     const { data: { session } } = await sb.auth.getSession();
@@ -286,9 +311,242 @@ hello@kabe-e.com
       badge.classList.add('flex');
     }
   }
-  refreshCartBadge();
 
-  const urlParams = new URLSearchParams(window.location.search);
-  applyFormat(urlParams.get('format') || '', urlParams.get('category') || '');
+  function fromDbPoster(row) {
+    return {
+      id: row.id, title: row.title, collection: row.category || 'Kabe-E Collection', badge: row.badge || '',
+      price: row.price, originalPrice: row.original_price,
+      discount: row.discount ? (row.discount + '% OFF') : '',
+      description: row.description || '',
+      image: row.image || FALLBACK_IMG,
+      thumbs: (row.gallery || []).slice(0, 4),
+      sizes: [{ label:'A4', sub:'Standard', delta:0 }, { label:'A3', sub:'+₹200', delta:200 }, { label:'A5', sub:'-₹50', delta:-50 }]
+    };
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const idParam = params.get('id');
+
+  let poster = null;
+  let allPosters = [];
+  let currentFormat = 'poster';
+  let currentSize = null;
+  let currentPrice = 0;
+
+  async function init() {
+    refreshCartBadge();
+    const { data: allData } = await sb.from('posters').select('*').order('created_at', { ascending: false });
+    allPosters = (allData || []).map(fromDbPoster);
+
+    if (allPosters.length === 0) {
+      document.querySelector('main').innerHTML = '<p class="text-center py-20 text-on-surface-variant">No posters found. Add some in the admin panel first.</p>';
+      return;
+    }
+
+    poster = (idParam && allPosters.find(p => String(p.id) === idParam)) || allPosters[0];
+
+    document.title = 'KABE-E | ' + poster.title;
+    document.getElementById('crumbCollection').textContent = poster.collection.split(' ')[0];
+    document.getElementById('crumbTitle').textContent = poster.title;
+    document.getElementById('mainImage').src = poster.image;
+    document.getElementById('mainImage').alt = poster.title;
+    document.getElementById('badgeTag').textContent = poster.badge || 'Kabe-E';
+    document.getElementById('posterTitle').textContent = poster.title;
+    document.getElementById('posterCollection').textContent = poster.collection;
+    document.getElementById('posterPrice').textContent = '₹' + poster.price;
+    document.getElementById('posterDescription').textContent = poster.description;
+
+    if (poster.originalPrice) {
+      document.getElementById('posterOriginalPrice').textContent = '₹' + poster.originalPrice;
+      document.getElementById('posterDiscount').textContent = poster.discount;
+    }
+
+    const thumbStrip = document.getElementById('thumbStrip');
+    const allThumbs = [poster.image, ...poster.thumbs];
+    thumbStrip.innerHTML = '';
+    allThumbs.forEach((src, i) => {
+      const t = document.createElement('div');
+      t.className = 'thumb w-20 h-20 rounded-lg overflow-hidden border-2 shrink-0 cursor-pointer transition-opacity' + (i === 0 ? ' active border-primary' : ' border-outline-variant');
+      t.innerHTML = '<img class="w-full h-full object-cover" src="' + src + '" onerror="this.src=\''+FALLBACK_IMG+'\'" alt="' + poster.title + ' view ' + (i+1) + '">';
+      t.addEventListener('click', () => {
+        document.getElementById('mainImage').src = src;
+        document.querySelectorAll('.thumb').forEach(el => { el.classList.remove('active', 'border-primary'); el.classList.add('border-outline-variant'); });
+        t.classList.add('active', 'border-primary');
+        t.classList.remove('border-outline-variant');
+      });
+      thumbStrip.appendChild(t);
+    });
+
+    setupFormats();
+    renderRelated();
+  }
+
+  function setupFormats() {
+    const formatData = {
+      poster: {
+        sizeLabel: 'SELECT SIZE',
+        sizes: poster.sizes,
+        priceBase: poster.price,
+        ctaIcon: 'shopping_cart',
+        ctaLabel: 'Add to Cart'
+      },
+      polaroid: {
+        sizeLabel: 'SELECT SET',
+        sizes: [
+          { label: 'Set of 9', sub: 'Standard', delta: 0 },
+          { label: 'Set of 16', sub: '+₹150', delta: 150 },
+          { label: 'Set of 24', sub: '+₹300', delta: 300 }
+        ],
+        priceBase: Math.round(poster.price * 0.6),
+        ctaIcon: 'shopping_cart',
+        ctaLabel: 'Add to Cart'
+      },
+      sticker: {
+        sizeLabel: 'SELECT SIZE',
+        sizes: [
+          { label: '2 inch', sub: 'Standard', delta: 0 },
+          { label: '3 inch', sub: '+₹20', delta: 20 },
+          { label: 'Sheet of 12', sub: '+₹80', delta: 80 }
+        ],
+        priceBase: Math.max(49, Math.round(poster.price * 0.3)),
+        ctaIcon: 'shopping_cart',
+        ctaLabel: 'Add to Cart'
+      },
+      wallpaper: {
+        sizeLabel: 'SELECT RESOLUTION',
+        sizes: [
+          { label: 'Desktop', sub: 'Standard', delta: 0 },
+          { label: 'Tablet', sub: '+₹10', delta: 10 },
+          { label: 'Mobile', sub: '+₹10', delta: 10 }
+        ],
+        priceBase: 49,
+        ctaIcon: 'download',
+        ctaLabel: 'Download'
+      }
+    };
+
+    const sizeRow = document.getElementById('sizeRow');
+    const sizeLabelEl = document.getElementById('sizeLabel');
+    const priceEl = document.getElementById('posterPrice');
+    const ctaIconEl = document.getElementById('primaryCtaIcon');
+    const ctaLabelEl = document.getElementById('primaryCtaLabel');
+
+    function renderSizes(formatKey) {
+      currentFormat = formatKey;
+      const fmt = formatData[formatKey];
+      sizeLabelEl.textContent = fmt.sizeLabel;
+      ctaIconEl.textContent = fmt.ctaIcon;
+      ctaLabelEl.textContent = fmt.ctaLabel;
+
+      const origEl = document.getElementById('posterOriginalPrice');
+      const discEl = document.getElementById('posterDiscount');
+      if (formatKey === 'poster' && poster.originalPrice) {
+        origEl.textContent = '₹' + poster.originalPrice;
+        discEl.textContent = poster.discount;
+      } else {
+        origEl.textContent = '';
+        discEl.textContent = '';
+      }
+
+      sizeRow.innerHTML = '';
+      fmt.sizes.forEach((sz, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'size-opt border rounded-xl py-3 text-center transition-all' + (i === 0 ? ' active border-primary' : ' border-outline-variant');
+        btn.innerHTML = '<span class="block font-bold">' + sz.label + '</span><span class="text-[10px] ' + (i===0 ? 'text-primary' : 'text-on-surface-variant') + '">' + sz.sub + '</span>';
+        btn.addEventListener('click', () => {
+          sizeRow.querySelectorAll('.size-opt').forEach(b => {
+            b.classList.remove('active', 'border-primary');
+            b.classList.add('border-outline-variant');
+            b.querySelector('span:last-child').classList.remove('text-primary');
+            b.querySelector('span:last-child').classList.add('text-on-surface-variant');
+          });
+          btn.classList.add('active', 'border-primary');
+          btn.classList.remove('border-outline-variant');
+          btn.querySelector('span:last-child').classList.add('text-primary');
+          btn.querySelector('span:last-child').classList.remove('text-on-surface-variant');
+          currentSize = sz.label;
+          currentPrice = fmt.priceBase + sz.delta;
+          priceEl.textContent = '₹' + currentPrice;
+        });
+        sizeRow.appendChild(btn);
+      });
+      currentSize = fmt.sizes[0].label;
+      currentPrice = fmt.priceBase;
+      priceEl.textContent = '₹' + fmt.priceBase;
+    }
+
+    const requestedFormat = params.get('format');
+    if (requestedFormat && formatData[requestedFormat]) {
+      document.querySelectorAll('.format-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.format === requestedFormat);
+      });
+      renderSizes(requestedFormat);
+    } else {
+      renderSizes('poster');
+    }
+
+    document.querySelectorAll('.format-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.format-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderSizes(tab.dataset.format);
+      });
+    });
+
+    document.getElementById('primaryCta').addEventListener('click', async () => {
+      if (currentFormat === 'wallpaper') {
+        alert('Digital download coming soon! For now, wallpapers can be added to cart like any other item.');
+      }
+      const btn = document.getElementById('primaryCta');
+      const originalHTML = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span><span>Adding...</span>';
+
+      const userId = await ensureSession();
+      if (!userId) {
+        alert('Could not start a cart session. Check your Supabase connection.');
+        btn.disabled = false;
+        btn.innerHTML = originalHTML;
+        return;
+      }
+
+      const { error } = await sb.from('cart_items').insert({
+        user_id: userId,
+        poster_id: poster.id,
+        title_snapshot: poster.title,
+        image_snapshot: poster.image,
+        format: currentFormat,
+        size_label: currentSize,
+        unit_price: currentPrice,
+        quantity: 1
+      });
+
+      btn.disabled = false;
+      if (error) {
+        console.error(error);
+        alert('Could not add to cart: ' + error.message);
+        btn.innerHTML = originalHTML;
+        return;
+      }
+
+      btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span><span>Added!</span>';
+      refreshCartBadge();
+      setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
+    });
+  }
+
+  function renderRelated() {
+    const relatedGrid = document.getElementById('relatedGrid');
+    relatedGrid.innerHTML = '';
+    allPosters.filter(p => p.id !== poster.id).slice(0, 4).forEach(p => {
+      const a = document.createElement('a');
+      a.href = 'poster-detail.html?id=' + p.id;
+      a.className = 'group block';
+      a.innerHTML = '<div class="relative rounded-xl overflow-hidden aspect-[3/4] mb-4 transition-transform duration-500 group-hover:-translate-y-2 bg-surface-container-highest border border-outline-variant/30"><img class="w-full h-full object-cover" src="' + p.image + '" onerror="this.src=\''+FALLBACK_IMG+'\'" alt="' + p.title + '"></div><h4 class="text-sm font-semibold mb-1 text-primary">' + p.title + '</h4><p class="font-bold text-lg text-secondary">₹' + p.price + '</p>';
+      relatedGrid.appendChild(a);
+    });
+  }
+
+  init();
 </script>
 </body></html>
