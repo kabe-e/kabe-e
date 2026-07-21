@@ -221,13 +221,14 @@ hello@kabe-e.com
     `;
   }
 
-  async function loadShop(formatFilter, categoryFilter) {
+  async function loadShop(formatFilter, categoryFilter, searchQuery) {
     const grid = document.getElementById('shopGrid');
     grid.innerHTML = '<p class="col-span-4 text-center text-on-surface-variant py-16">Loading...</p>';
     try {
       let query = sb.from('posters').select('*').order('created_at', { ascending: false });
       if (formatFilter) query = query.contains('formats', [formatFilter]);
       if (categoryFilter) query = query.eq('category', categoryFilter);
+      if (searchQuery) query = query.ilike('title', `%${searchQuery}%`);
       const { data, error } = await query;
 
       if (error) {
@@ -235,8 +236,8 @@ hello@kabe-e.com
         return;
       }
       if (!data || data.length === 0) {
-        const missingLabel = categoryFilter || formatFilter;
-        grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">Nothing here yet — add posters in the admin panel${missingLabel ? ` and tag them as "${missingLabel}"` : ''}.</p>`;
+        const missingLabel = searchQuery || categoryFilter || formatFilter;
+        grid.innerHTML = `<p class="col-span-4 text-center text-on-surface-variant py-16">${searchQuery ? `No results for "${searchQuery}".` : `Nothing here yet — add posters in the admin panel${missingLabel ? ` and tag them as "${missingLabel}"` : ''}.`}</p>`;
         return;
       }
       grid.innerHTML = data.map(posterCardHTML).join('');
@@ -245,15 +246,15 @@ hello@kabe-e.com
     }
   }
 
-  function applyFormat(formatFilter, categoryFilter) {
-    const title = categoryFilter || (labels[formatFilter] ?? 'All Posters');
+  function applyFormat(formatFilter, categoryFilter, searchQuery) {
+    const title = searchQuery ? `Results for "${searchQuery}"` : (categoryFilter || (labels[formatFilter] ?? 'All Posters'));
     document.getElementById('pageTitle').textContent = title;
-    document.getElementById('pageSubtitle').textContent = categoryFilter ? `Browse the ${categoryFilter} collection.` : (subtitles[formatFilter] ?? '');
+    document.getElementById('pageSubtitle').textContent = searchQuery ? '' : (categoryFilter ? `Browse the ${categoryFilter} collection.` : (subtitles[formatFilter] ?? ''));
     document.getElementById('crumbLabel').textContent = title;
     document.querySelectorAll('.filter-chip').forEach(chip => {
-      chip.classList.toggle('active', chip.dataset.format === formatFilter && !categoryFilter);
+      chip.classList.toggle('active', chip.dataset.format === formatFilter && !categoryFilter && !searchQuery);
     });
-    loadShop(formatFilter, categoryFilter);
+    loadShop(formatFilter, categoryFilter, searchQuery);
   }
 
   document.querySelectorAll('.filter-chip').forEach(chip => {
@@ -262,8 +263,9 @@ hello@kabe-e.com
       if (chip.dataset.format) url.searchParams.set('format', chip.dataset.format);
       else url.searchParams.delete('format');
       url.searchParams.delete('category');
+      url.searchParams.delete('q');
       window.history.replaceState({}, '', url);
-      applyFormat(chip.dataset.format, '');
+      applyFormat(chip.dataset.format, '', '');
     });
   });
 
@@ -289,6 +291,6 @@ hello@kabe-e.com
   refreshCartBadge();
 
   const urlParams = new URLSearchParams(window.location.search);
-  applyFormat(urlParams.get('format') || '', urlParams.get('category') || '');
+  applyFormat(urlParams.get('format') || '', urlParams.get('category') || '', urlParams.get('q') || '');
 </script>
 </body></html>
