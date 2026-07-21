@@ -138,6 +138,9 @@
 </nav>
 </div>
 <div class="flex items-center gap-4">
+<button id="headerSearchBtn" class="p-2 hover:bg-surface-bright/20 rounded-lg transition-all scale-95 active:scale-90">
+<span class="material-symbols-outlined text-primary">search</span>
+</button>
 <a href="wishlist.html" class="p-2 hover:bg-surface-bright/20 rounded-lg transition-all scale-95 active:scale-90 inline-block">
 <span class="material-symbols-outlined text-primary">favorite</span>
 </a>
@@ -150,6 +153,15 @@
 </a>
 </div>
 </header>
+
+<!-- Header Search Panel -->
+<div id="headerSearchPanel" class="hidden bg-surface border-b border-outline-variant/30 px-margin-mobile md:px-margin-desktop py-4 sticky top-[73px] z-40">
+<div class="relative max-w-2xl mx-auto">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline z-10">search</span>
+<input id="headerSearchInput" autocomplete="off" class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-full py-3.5 pl-12 pr-6 focus:ring-2 focus:ring-primary/20 text-body-md transition-all outline-none" placeholder="Search for your aesthetic..." type="text">
+<div id="headerSearchSuggestions" class="hidden absolute top-[calc(100%+8px)] left-0 right-0 bg-surface-container-lowest border border-outline-variant/30 rounded-2xl shadow-lg overflow-hidden z-50"></div>
+</div>
+</div>
 
 <!-- Mobile Nav Dropdown -->
 <div id="mobileNavPanel" class="hidden md:hidden bg-surface border-b border-outline-variant/30 px-margin-mobile py-4 flex flex-col gap-1 sticky top-[73px] z-40">
@@ -173,10 +185,10 @@
 
 <main>
 <!-- Hero Section -->
-<section class="relative h-[420px] sm:h-[480px] md:h-[560px] flex items-center overflow-hidden bg-surface-container-low shoji-grid">
+<section class="relative min-h-[440px] sm:min-h-[500px] md:min-h-[560px] flex items-center overflow-hidden bg-surface-container-low shoji-grid py-10">
 <div id="heroSlideTrack" class="absolute inset-0 z-0">
 <!-- Hero slides injected here by JS from Supabase banners -->
-<div class="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-background/10"></div>
 </div>
 <button id="heroPrevBtn" aria-label="Previous banner" class="hero-arrow absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full flex items-center justify-center shadow-md">
 <span class="material-symbols-outlined text-primary">chevron_left</span>
@@ -185,30 +197,35 @@
 <span class="material-symbols-outlined text-primary">chevron_right</span>
 </button>
 <div class="relative z-10 px-margin-mobile md:px-margin-desktop w-full">
-<div class="max-w-4xl lg:max-w-5xl mb-12">
-<div class="relative group">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
-<input class="w-full bg-surface-container-lowest/80 backdrop-blur-md border border-outline-variant/30 rounded-full py-4 pl-12 pr-6 focus:ring-2 focus:ring-primary/20 text-body-md transition-all outline-none shadow-sm hover:shadow-md" placeholder="Search for your aesthetic..." type="text">
+
+<div class="flex items-center gap-1 mb-4" id="heroStars">
+<span class="material-symbols-outlined text-[20px]" style="color:#b08d2f;font-variation-settings:'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="color:#b08d2f;font-variation-settings:'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="color:#b08d2f;font-variation-settings:'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="color:#b08d2f;font-variation-settings:'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[20px]" style="color:#b08d2f;font-variation-settings:'FILL' 1;">star</span>
 </div>
-</div>
-<div class="max-w-2xl">
-<span id="heroEyebrow" class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-4 block">Premium Art Curation</span>
-<h1 id="heroHeadline" class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary leading-tight mb-6">Walls That Speak</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-lg">
-                    Discover a curated collection of premium posters, high-fidelity stickers, and bespoke wall art inspired by Japanese minimalism and modern aesthetics.
-                </p>
-<div class="flex flex-wrap gap-4 items-center">
-<button id="heroCtaBtn" class="bg-primary text-on-primary px-10 py-4 rounded-xl font-bold hover:scale-[1.02] transition-transform active:scale-95">
-                        Shop Posters
+
+<p id="heroStat" class="hidden font-headline-md font-extrabold text-primary text-3xl md:text-5xl leading-none mb-2"></p>
+
+<span id="heroEyebrow" class="font-label-sm text-label-sm text-secondary tracking-widest uppercase mb-3 block">Premium Art Curation</span>
+<h1 id="heroHeadline" class="font-headline-md font-extrabold text-4xl sm:text-5xl md:text-6xl text-primary leading-[1.05] mb-6 max-w-3xl">Walls That Speak</h1>
+
+<div class="flex flex-wrap gap-4 items-center mb-6">
+<button id="heroCtaBtn" class="bg-primary text-on-primary px-10 py-4 rounded-full font-bold hover:scale-[1.02] transition-transform active:scale-95 flex items-center gap-2">
+<span id="heroCtaLabel">Shop Posters</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
                     </button>
-<button class="bg-transparent border border-primary text-primary px-10 py-4 rounded-xl font-bold hover:bg-primary/5 transition-colors active:scale-95">
-                        Customize
-                    </button>
-<div class="flex gap-2 ml-2" id="heroDots">
+<div class="flex gap-2" id="heroDots">
 <!-- Dots injected here by JS to match banner count -->
 </div>
 </div>
+
+<div class="flex flex-wrap gap-3">
+<span class="border border-outline-variant rounded-full px-4 py-2 font-label-sm text-label-sm bg-surface-container-lowest/80 backdrop-blur-sm">COD Available</span>
+<span class="border border-outline-variant rounded-full px-4 py-2 font-label-sm text-label-sm bg-surface-container-lowest/80 backdrop-blur-sm">Free Express Shipping</span>
 </div>
+
 </div>
 </section>
 <!-- Category Grid -->
@@ -281,6 +298,21 @@
 </div>
 <div id="wallpaperGrid" class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
 <!-- Wallpaper cards are injected here by JS from Supabase -->
+</div>
+</section>
+<!-- Sketches -->
+<section class="py-12 px-margin-mobile md:px-margin-desktop">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Sketches</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Hand-drawn line art &amp; pencil-style pieces.</p>
+</div>
+<a class="text-secondary font-bold font-label-sm text-label-sm flex items-center gap-1 group" href="shop.html?category=Sketching%2FDrawing">
+                    View All <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div id="sketchGrid" class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Sketch cards are injected here by JS from Supabase -->
 </div>
 </section>
 <!-- Newsletter / Community Section -->
@@ -457,7 +489,14 @@ hello@kabe-e.com
             if (!b) return;
             document.getElementById('heroEyebrow').textContent = b.eyebrow || '';
             document.getElementById('heroHeadline').textContent = b.headline || '';
-            document.getElementById('heroCtaBtn').textContent = b.cta || 'Shop Now';
+            document.getElementById('heroCtaLabel').textContent = b.cta || 'Shop Now';
+            const statEl = document.getElementById('heroStat');
+            if (b.stat_text) {
+                statEl.textContent = b.stat_text;
+                statEl.classList.remove('hidden');
+            } else {
+                statEl.classList.add('hidden');
+            }
         }
 
         function goToHeroSlide(i) {
@@ -522,11 +561,12 @@ hello@kabe-e.com
             `;
         }
 
-        async function loadPosterRow(gridId, formatFilter, emptyLabel) {
+        async function loadPosterRow(gridId, formatFilter, emptyLabel, categoryFilter) {
             const grid = document.getElementById(gridId);
             try {
                 let query = sb.from('posters').select('*').order('created_at', { ascending: false }).limit(4);
                 if (formatFilter) query = query.contains('formats', [formatFilter]);
+                if (categoryFilter) query = query.eq('category', categoryFilter);
                 const { data, error } = await query;
 
                 if (error) {
@@ -610,6 +650,7 @@ hello@kabe-e.com
             loadPosterRow('stickerGrid', 'sticker', 'No stickers yet — tag a poster as "Sticker" in the admin panel.');
             loadPosterRow('polaroidGrid', 'polaroid', 'No polaroids yet — tag a poster as "Polaroid" in the admin panel.');
             loadPosterRow('wallpaperGrid', 'wallpaper', 'No wallpapers yet — tag a poster as "Wallpaper" in the admin panel.');
+            loadPosterRow('sketchGrid', null, 'No sketches yet — set a poster\'s category to "Sketching/Drawing" in the admin panel.', 'Sketching/Drawing');
         }
 
         document.getElementById('mobileMenuBtn').addEventListener('click', () => {
@@ -619,6 +660,101 @@ hello@kabe-e.com
         refreshCartBadge();
         loadHeroBanners();
         initRows();
+
+        // ---------------- Search with history-based suggestions (reusable) ----------------
+        async function runSearch(query) {
+            const q = query.trim();
+            if (!q) return;
+            const userId = await ensureSession();
+            if (userId) await sb.from('search_history').insert({ user_id: userId, query: q });
+            window.location.href = 'shop.html?q=' + encodeURIComponent(q);
+        }
+
+        function wireSearchInput(inputEl, suggestionsEl, wrapEl) {
+            let debounceTimer = null;
+
+            function renderSuggestionItems(items, isHistory) {
+                if (items.length === 0) {
+                    suggestionsEl.classList.add('hidden');
+                    return;
+                }
+                suggestionsEl.innerHTML = items.map(item => {
+                    if (isHistory) {
+                        return `
+                            <button class="suggestion-item w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-surface-container-high transition-colors" data-query="${item.query}">
+                                <span class="material-symbols-outlined text-[18px] text-on-surface-variant">history</span>
+                                <span class="flex-1 text-sm">${item.query}</span>
+                            </button>
+                        `;
+                    }
+                    return `
+                        <a href="poster-detail.html?id=${item.id}" class="suggestion-item w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-surface-container-high transition-colors">
+                            <img src="${item.image || FALLBACK_IMG}" onerror="this.src='${FALLBACK_IMG}'" class="w-8 h-10 object-cover rounded">
+                            <span class="flex-1 text-sm">${item.title}</span>
+                            <span class="text-xs text-on-surface-variant">${item.category || ''}</span>
+                        </a>
+                    `;
+                }).join('');
+                suggestionsEl.classList.remove('hidden');
+
+                suggestionsEl.querySelectorAll('.suggestion-item[data-query]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        inputEl.value = btn.dataset.query;
+                        runSearch(btn.dataset.query);
+                    });
+                });
+            }
+
+            async function showRecentSearches() {
+                const userId = await ensureSession();
+                if (!userId) return;
+                const { data } = await sb.from('search_history').select('query').eq('user_id', userId).order('created_at', { ascending: false }).limit(20);
+                const unique = [];
+                const seen = new Set();
+                (data || []).forEach(r => {
+                    const q = r.query.trim().toLowerCase();
+                    if (!seen.has(q)) { seen.add(q); unique.push(r); }
+                });
+                renderSuggestionItems(unique.slice(0, 5), true);
+            }
+
+            async function showLiveMatches(query) {
+                const { data } = await sb.from('posters').select('id, title, category, image').ilike('title', `%${query}%`).limit(6);
+                renderSuggestionItems(data || [], false);
+            }
+
+            inputEl.addEventListener('focus', () => {
+                if (inputEl.value.trim()) showLiveMatches(inputEl.value.trim());
+                else showRecentSearches();
+            });
+
+            inputEl.addEventListener('input', () => {
+                clearTimeout(debounceTimer);
+                const q = inputEl.value.trim();
+                if (!q) { showRecentSearches(); return; }
+                debounceTimer = setTimeout(() => showLiveMatches(q), 250);
+            });
+
+            inputEl.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    runSearch(inputEl.value);
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!wrapEl.contains(e.target)) suggestionsEl.classList.add('hidden');
+            });
+        }
+
+        wireSearchInput(document.getElementById('headerSearchInput'), document.getElementById('headerSearchSuggestions'), document.getElementById('headerSearchPanel'));
+
+        // Toggle the header search panel
+        document.getElementById('headerSearchBtn').addEventListener('click', () => {
+            const panel = document.getElementById('headerSearchPanel');
+            panel.classList.toggle('hidden');
+            if (!panel.classList.contains('hidden')) document.getElementById('headerSearchInput').focus();
+        });
     </script>
 
 
