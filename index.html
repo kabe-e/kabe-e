@@ -108,7 +108,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .hero-slide { opacity: 0; transition: opacity 1.2s ease; }
-        .hero-slide.active { opacity: 0.88; }
+        .hero-slide.active { opacity: 1; }
         .animate-marquee { animation: marquee 22s linear infinite; }
         .animate-marquee:hover { animation-play-state: paused; }
         .offer-item { color: #ffffff; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.03em; padding-right: 0; }
@@ -188,7 +188,7 @@
 <section class="relative min-h-[440px] sm:min-h-[500px] md:min-h-[560px] flex items-center overflow-hidden bg-surface-container-low shoji-grid py-10">
 <div id="heroSlideTrack" class="absolute inset-0 z-0">
 <!-- Hero slides injected here by JS from Supabase banners -->
-<div class="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-background/10"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background/85 via-background/25 to-transparent"></div>
 </div>
 <button id="heroPrevBtn" aria-label="Previous banner" class="hero-arrow absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full flex items-center justify-center shadow-md">
 <span class="material-symbols-outlined text-primary">chevron_left</span>
@@ -472,7 +472,7 @@ hello@kabe-e.com
             });
             // gradient overlay goes back on top of slides
             const gradient = document.createElement('div');
-            gradient.className = 'absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent';
+            gradient.className = 'absolute inset-0 bg-gradient-to-r from-background/85 via-background/25 to-transparent';
             track.appendChild(gradient);
 
             updateHeroCopy(0);
